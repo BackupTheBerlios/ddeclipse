@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.1"?>
+
+<product name="fastide" id="org.eclipse.fastide.fastide" application="org.eclipse.fastide.fastide" useFeatures="false">
+
+   <aboutInfo>
+      <text>
+         Fast SDK
+
+Version: 1.0.0
+      </text>
+   </aboutInfo>
+
+   <configIni use="default"/>
+
+   <launcherArgs>
+   </launcherArgs>
+
+   <windowImages small="/org.eclipse.fastide/icons/shapes.gif"/>
+
+   <splash location="org.eclipse.fastide"/>
+
+   <launcher name="fastide">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <plugins>
+      <plugin id="org.eclipse.ant.core"/>
+      <plugin id="org.eclipse.core.commands"/>
+      <plugin id="org.eclipse.core.expressions"/>
+      <plugin id="org.eclipse.core.resources"/>
+      <plugin id="org.eclipse.core.resources.compatibility"/>
+      <plugin id="org.eclipse.core.resources.win32"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.runtime.compatibility"/>
+      <plugin id="org.eclipse.core.variables"/>
+      <plugin id="org.eclipse.draw2d"/>
+      <plugin id="org.eclipse.fastide"/>
+      <plugin id="org.eclipse.gef"/>
+      <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.jface"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.swt"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86"/>
+      <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.forms"/>
+      <plugin id="org.eclipse.ui.ide"/>
+      <plugin id="org.eclipse.ui.views"/>
+      <plugin id="org.eclipse.ui.win32"/>
+      <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="org.eclipse.update.core"/>
+      <plugin id="org.eclipse.update.core.win32"/>
+      <plugin id="org.eclipse.update.ui"/>
+   </plugins>
+
+</product>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         id="fastide"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.eclipse.fastide.FastApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Fastide Perspective"
+            class="org.eclipse.fastide.Perspective"
+            id="org.eclipse.fastide.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.fastide.editors.FastEditor"
+            contributorClass="org.eclipse.fastide.actions.FastActionBarContributor"
+            default="false"
+            extensions="fst"
+            icon="icons/shapes.gif"
+            id="org.eclipse.fastide.fasteditor"
+            name="Fast Editor"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="org.eclipse.ui.views.properties.PropertySheet"
+            icon="icons/prop_ps.gif"
+            id="org.eclipse.ui.views.PropertySheet"
+            name="Properties"/>
+      <view
+            allowMultiple="false"
+            class="org.eclipse.ui.views.contentoutline.ContentOutline"
+            icon="icons/outline_co.gif"
+            id="org.eclipse.ui.views.contentoutline.ContentOutline"
+            name="Outline"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.fastide.fastcategory"
+            class="org.eclipse.fastide.editors.FastCreationWizard"
+            icon="icons/shapes.gif"
+            id="org.fastide.FastCreationWiard"
+            name="Fast Diagram">
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+      <category
+            id="org.eclipse.fastide.fastcategory"
+            name="FAST"/>
+   </extension>
+   <extension
+         id="fastide"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.fastide.fastide"
+            name="fastide">
+         <property
+               name="windowImages"
+               value="icons/shapes.gif"/>
+         <property
+               name="aboutText"
+               value="Fast SDK&#x0A;&#x0A;Version: 1.0.0"/>
+      </product>
+   </extension>
+
+</plugin>
