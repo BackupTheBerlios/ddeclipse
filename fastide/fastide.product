@@ -16,7 +16,7 @@ Version: 1.0.0
    <launcherArgs>
    </launcherArgs>
 
-   <windowImages small="/org.eclipse.fastide/icons/shapes.gif"/>
+   <windowImages small="/fastide/icons/shapes.gif"/>
 
    <splash location="org.eclipse.fastide"/>
 

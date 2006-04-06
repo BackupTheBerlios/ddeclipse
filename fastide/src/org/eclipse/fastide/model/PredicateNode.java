@@ -23,7 +23,7 @@ public class PredicateNode extends SimpleNode {
                                                         "icons/or16.gif");
 
     public PredicateNode() {
-        this.size = new Dimension(50, 50);
+        this.size = new Dimension(40, 40);
         this.location = new Point(20, 20);
     }
 

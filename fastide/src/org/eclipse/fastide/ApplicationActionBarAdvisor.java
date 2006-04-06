@@ -1,5 +1,7 @@
 package org.eclipse.fastide;
 
+import org.eclipse.fastide.actions.NewFastDiagramAction;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;

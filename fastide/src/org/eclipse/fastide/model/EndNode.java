@@ -11,7 +11,13 @@ import org.eclipse.swt.graphics.Image;
  * @author …Ú»›÷€
  */
 public class EndNode extends SimpleNode {
-    public static final String IN               = "IN";
+    public static final String IN1              = "IN1";
+
+    public static final String IN2              = "IN2";
+
+    public static final String IN3              = "IN3";
+
+    public static final String IN4              = "IN4";
 
     static final long          serialVersionUID = 1;
 
@@ -19,7 +25,7 @@ public class EndNode extends SimpleNode {
                                                         "icons/or16.gif");
 
     public EndNode() {
-        size = new Dimension(10, 10);
+        size = new Dimension(20, 20);
         location = new Point(20, 20);
     }
 
@@ -28,7 +34,10 @@ public class EndNode extends SimpleNode {
      */
     public void update() {
         // TODO Auto-generated method stub
-        getInput(IN);
+        getInput(IN1);
+        getInput(IN2);
+        getInput(IN3);
+        getInput(IN4);
     }
 
     /**

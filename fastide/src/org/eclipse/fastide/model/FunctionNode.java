@@ -21,7 +21,7 @@ public class FunctionNode extends SimpleNode {
                                                         "icons/xor16.gif");
 
     public FunctionNode() {
-        this.size = new Dimension(50, 50);
+        this.size = new Dimension(40, 40);
         this.location = new Point(20, 20);
     }
 

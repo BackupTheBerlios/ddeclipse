@@ -5,6 +5,7 @@ package org.eclipse.fastide.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.fastide.model.PredicateNode;
@@ -13,29 +14,50 @@ import org.eclipse.fastide.model.PredicateNode;
  * @author …Ú»›÷€
  */
 public class PredicateNodeFigure extends NodeFigure {
-    private static PointList kite = null;
+    protected static PointList outerKite = null;
+
+    protected static PointList innerKite = null;
+
+    private static Point       p1        = new Point(19, 0);
+
+    private static Point       p2        = new Point(0, 19);
+
+    private static Point       p3        = new Point(19, 38);
+
+    private static Point       p4        = new Point(38, 19);
 
     static {
-        kite = new PointList();
-        kite.addPoint(24, 0);
-        kite.addPoint(0, 24);
-        kite.addPoint(24, 48);
-        kite.addPoint(48, 24);
+        outerKite = new PointList();
+        outerKite.addPoint(p1);
+        outerKite.addPoint(p2);
+        outerKite.addPoint(p3);
+        outerKite.addPoint(p4);
+        innerKite = new PointList();
+        innerKite.addPoint(p1.x, p1.y + 8);
+        innerKite.addPoint(p2.x + 8, p2.y);
+        innerKite.addPoint(p3.x, p3.y - 8);
+        innerKite.addPoint(p4.x - 8, p4.y);
     }
 
     public PredicateNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetV = 25;
+        c.offsetV = 19;
         connectionAnchors.put(PredicateNode.IN, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 25;
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(PredicateNode.IN, c);
+        inputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetH = 19;
         connectionAnchors.put(PredicateNode.OUT_1, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 25;
+        c.offsetH = 19;
         c.topDown = false;
         connectionAnchors.put(PredicateNode.OUT_2, c);
         outputConnectionAnchors.addElement(c);
@@ -46,12 +68,13 @@ public class PredicateNodeFigure extends NodeFigure {
      */
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
+        super.paintFigure(g);
         Rectangle r = getBounds().getCopy();
         g.translate(r.getLocation());
-        g.setBackgroundColor(ColorConstants.green);
         g.setForegroundColor(ColorConstants.black);
-        g.fillPolygon(kite);
-        g.drawPolygon(kite);
+        g.drawPolygon(outerKite);
+        g.setForegroundColor(ColorConstants.blue);
+        g.drawPolygon(innerKite);
     }
 
     public String toString() {

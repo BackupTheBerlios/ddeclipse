@@ -3,6 +3,12 @@ package org.eclipse.fastide;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.fastide.model.EndNode;
+import org.eclipse.fastide.model.FunctionNode;
+import org.eclipse.fastide.model.JoinpointNode;
+import org.eclipse.fastide.model.PredicateNode;
+import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.StartNode;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -18,10 +24,6 @@ import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.tools.MarqueeSelectionTool;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.fastide.model.FunctionNode;
-import org.eclipse.fastide.model.JoinpointNode;
-import org.eclipse.fastide.model.PredicateNode;
-import org.eclipse.fastide.model.SimpleNode;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -64,11 +66,14 @@ public class FastidePlugin extends AbstractUIPlugin {
     /**
      * Returns an image descriptor for the image file at the given plug-in
      * relative path.
-     * @param path the path
+     * 
+     * @param path
+     *            the path
      * @return the image descriptor
      */
     public static ImageDescriptor getImageDescriptor(String path) {
-        return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.fastide", path);
+        return AbstractUIPlugin.imageDescriptorFromPlugin(
+                "org.eclipse.fastide", path);
     }
 
     public static PaletteRoot createPalette() {
@@ -117,8 +122,21 @@ public class FastidePlugin extends AbstractUIPlugin {
                         JoinpointNode.class), ImageDescriptor.createFromFile(
                         SimpleNode.class, "icons/and16.gif"),//$NON-NLS-1$
                 ImageDescriptor.createFromFile(SimpleNode.class,
-                        "icons/and24.gif")//$NON-NLS-1$
-        );
+                        "icons/and24.gif"));
+        entries.add(combined);
+
+        combined = new CombinedTemplateCreationEntry("Start Node",
+                "Start Node", "start node template", new SimpleFactory(
+                        StartNode.class), ImageDescriptor.createFromFile(
+                        SimpleNode.class, "icons/and16.gif"), ImageDescriptor
+                        .createFromFile(SimpleNode.class, "icons/and24.gif"));
+        entries.add(combined);
+
+        combined = new CombinedTemplateCreationEntry("End Node", "End Node",
+                "end node template", new SimpleFactory(EndNode.class),
+                ImageDescriptor.createFromFile(SimpleNode.class,
+                        "icons/and16.gif"), ImageDescriptor.createFromFile(
+                        SimpleNode.class, "icons/and24.gif"));
         entries.add(combined);
 
         drawer.addAll(entries);

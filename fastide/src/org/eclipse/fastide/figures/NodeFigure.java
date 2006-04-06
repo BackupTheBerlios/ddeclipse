@@ -9,7 +9,9 @@ import java.util.Vector;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.SWT;
 
 /**
  * @author …Ú»›÷€
@@ -30,7 +32,7 @@ public class NodeFigure extends Figure {
             ConnectionAnchor c = (ConnectionAnchor) e.nextElement();
             Point p2 = c.getLocation(null);
             long d = p.getDistance2(p2);
-            if(d < min) {
+            if (d < min) {
                 min = d;
                 closest = c;
             }
@@ -40,7 +42,7 @@ public class NodeFigure extends Figure {
             ConnectionAnchor c = (ConnectionAnchor) e.nextElement();
             Point p2 = c.getLocation(null);
             long d = p.getDistance2(p2);
-            if(d < min) {
+            if (d < min) {
                 min = d;
                 closest = c;
             }
@@ -57,7 +59,7 @@ public class NodeFigure extends Figure {
         String key;
         while (keys.hasMoreElements()) {
             key = (String) keys.nextElement();
-            if(connectionAnchors.get(key).equals(c))
+            if (connectionAnchors.get(key).equals(c))
                 return key;
         }
         return null;
@@ -72,7 +74,7 @@ public class NodeFigure extends Figure {
             ConnectionAnchor c = (ConnectionAnchor) e.nextElement();
             Point p2 = c.getLocation(null);
             long d = p.getDistance2(p2);
-            if(d < min) {
+            if (d < min) {
                 min = d;
                 closest = c;
             }
@@ -93,7 +95,7 @@ public class NodeFigure extends Figure {
             ConnectionAnchor c = (ConnectionAnchor) e.nextElement();
             Point p2 = c.getLocation(null);
             long d = p.getDistance2(p2);
-            if(d < min) {
+            if (d < min) {
                 min = d;
                 closest = c;
             }
@@ -103,5 +105,11 @@ public class NodeFigure extends Figure {
 
     public Vector getTargetConnectionAnchors() {
         return inputConnectionAnchors;
+    }
+
+    protected void paintFigure(Graphics graphics) {
+        // TODO Auto-generated method stub
+        super.paintFigure(graphics);
+        graphics.setAntialias(SWT.ON);
     }
 }

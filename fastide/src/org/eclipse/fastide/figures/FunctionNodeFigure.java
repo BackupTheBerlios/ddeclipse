@@ -14,12 +14,12 @@ import org.eclipse.fastide.model.FunctionNode;
 public class FunctionNodeFigure extends NodeFigure {
     public FunctionNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetV = 25;
+        c.offsetV = 19;
         connectionAnchors.put(FunctionNode.IN, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 25;
+        c.offsetV = 19;
         c.leftToRight = false;
         connectionAnchors.put(FunctionNode.OUT, c);
         outputConnectionAnchors.addElement(c);
@@ -30,12 +30,16 @@ public class FunctionNodeFigure extends NodeFigure {
      */
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
+        super.paintFigure(g);
         Rectangle r = getBounds().getCopy();
-        g.translate(r.getLocation());
-        g.setBackgroundColor(ColorConstants.green);
         g.setForegroundColor(ColorConstants.black);
-        g.fillRectangle(1, 1, r.width - 2, r.height - 2);
-        g.drawRectangle(1, 1, r.width - 2, r.height - 2);
+        r.width = r.width - 2;
+        r.height = r.height - 2;
+        g.drawRectangle(r);
+        r.resize(-16, -16);
+        r.translate(8, 8);
+        g.setForegroundColor(ColorConstants.blue);
+        g.drawRectangle(r);
     }
 
     public String toString() {

@@ -1,38 +1,32 @@
-/**
- *
- */
 package org.eclipse.fastide.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.fastide.model.JoinpointNode;
+import org.eclipse.fastide.model.StartNode;
 
-/**
- * @author …Ú»›÷€
- */
-public class JoinpointNodeFigure extends NodeFigure {
-    public JoinpointNodeFigure() {
+public class StartNodeFigure extends NodeFigure {
+    public StartNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
-        connectionAnchors.put(JoinpointNode.IN_1, c);
-        inputConnectionAnchors.addElement(c);
-
-        c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
-        c.topDown = false;
-        connectionAnchors.put(JoinpointNode.IN_2, c);
-        inputConnectionAnchors.addElement(c);
-
-        c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
-        connectionAnchors.put(JoinpointNode.OUT, c);
+        c.offsetV = 9;
+        connectionAnchors.put(StartNode.OUT1, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        connectionAnchors.put(JoinpointNode.OUT, c);
+        c.offsetH = 9;
+        connectionAnchors.put(StartNode.OUT2, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetH = 9;
+        c.leftToRight = false;
+        connectionAnchors.put(StartNode.OUT3, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetH = 9;
+        c.topDown = false;
+        connectionAnchors.put(StartNode.OUT4, c);
         outputConnectionAnchors.addElement(c);
     }
 
@@ -47,13 +41,13 @@ public class JoinpointNodeFigure extends NodeFigure {
         r.width = r.width - 2;
         r.height = r.height - 2;
         g.drawOval(r);
-        r.resize(-16, -16);
-        r.translate(8, 8);
+        r.resize(-6, -6);
+        r.translate(3, 3);
         g.setForegroundColor(ColorConstants.blue);
         g.drawOval(r);
     }
 
     public String toString() {
-        return "JoinpointFigure";
+        return "StartFigure";
     }
 }

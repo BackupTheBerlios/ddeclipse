@@ -9,13 +9,13 @@ package org.eclipse.fastide.model;
 public class FastDiagramFactory {
     static FastDiagram root;
 
-    public static Object createEmptyModel() {
+    public static FastDiagram createEmptyModel() {
         root = new FastDiagram();
         return root;
     }
 
-    public Object getRootElement() {
-        if(root == null)
+    public static FastDiagram getRootElement() {
+        if (root == null)
             createEmptyModel();
         return root;
     }

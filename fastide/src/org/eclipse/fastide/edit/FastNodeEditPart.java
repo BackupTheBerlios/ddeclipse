@@ -9,15 +9,19 @@ import java.util.Vector;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.AccessibleAnchorProvider;
-import org.eclipse.gef.AccessibleEditPart;
-import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.fastide.figures.EndNodeFigure;
 import org.eclipse.fastide.figures.FunctionNodeFigure;
 import org.eclipse.fastide.figures.JoinpointNodeFigure;
 import org.eclipse.fastide.figures.PredicateNodeFigure;
+import org.eclipse.fastide.figures.StartNodeFigure;
 import org.eclipse.fastide.model.FunctionNode;
+import org.eclipse.fastide.model.JoinpointNode;
 import org.eclipse.fastide.model.PredicateNode;
 import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.StartNode;
+import org.eclipse.gef.AccessibleAnchorProvider;
+import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 
 /**
  * @author …Ú»›÷€
@@ -41,12 +45,16 @@ public class FastNodeEditPart extends FastEditPart {
      */
     protected IFigure createFigure() {
         // TODO Auto-generated method stub
-        if(getModel() instanceof FunctionNode)
+        if (getModel() instanceof FunctionNode)
             return new FunctionNodeFigure();
-        else if(getModel() instanceof PredicateNode)
+        else if (getModel() instanceof PredicateNode)
             return new PredicateNodeFigure();
-        else
+        else if (getModel() instanceof JoinpointNode)
             return new JoinpointNodeFigure();
+        else if (getModel() instanceof StartNode)
+            return new StartNodeFigure();
+        else
+            return new EndNodeFigure();
     }
 
     /**
@@ -54,7 +62,7 @@ public class FastNodeEditPart extends FastEditPart {
      */
     public Object getAdapter(Class key) {
         // TODO Auto-generated method stub
-        if(key == AccessibleAnchorProvider.class)
+        if (key == AccessibleAnchorProvider.class)
             return new DefaultAccessibleAnchorProvider() {
                 public List getSourceAnchorLocations() {
                     List list = new ArrayList();

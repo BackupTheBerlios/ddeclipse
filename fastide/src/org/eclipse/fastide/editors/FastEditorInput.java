@@ -1,6 +1,8 @@
 package org.eclipse.fastide.editors;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.fastide.model.FastDiagram;
+import org.eclipse.fastide.model.FastDiagramFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IPersistableElement;
@@ -45,5 +47,9 @@ public class FastEditorInput implements IPathEditorInput {
     public IPath getPath() {
         // TODO Auto-generated method stub
         return path;
+    }
+
+    public FastDiagram getDiagram() {
+        return FastDiagramFactory.getRootElement();
     }
 }

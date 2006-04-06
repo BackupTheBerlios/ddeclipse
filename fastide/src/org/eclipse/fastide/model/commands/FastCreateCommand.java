@@ -30,16 +30,16 @@ public class FastCreateCommand extends Command {
     }
 
     public void execute() {
-        if(rect != null) {
+        if (rect != null) {
             Insets expansion = getInsets();
-            if(!rect.isEmpty())
+            if (!rect.isEmpty())
                 rect.expand(expansion);
             else {
                 rect.x -= expansion.left;
                 rect.y -= expansion.top;
             }
             child.setLocation(rect.getLocation());
-            if(!rect.isEmpty())
+            if (!rect.isEmpty())
                 child.setSize(rect.getSize());
         }
         redo();

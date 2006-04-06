@@ -23,7 +23,7 @@ public class JoinpointNode extends SimpleNode {
                                                         "icons/and16.gif");
 
     public JoinpointNode() {
-        this.size = new Dimension(50, 50);
+        this.size = new Dimension(40, 40);
         this.location = new Point(20, 20);
     }
 

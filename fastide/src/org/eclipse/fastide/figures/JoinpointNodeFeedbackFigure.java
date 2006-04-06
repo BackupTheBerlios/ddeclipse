@@ -3,7 +3,10 @@
  */
 package org.eclipse.fastide.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 
 /**
  * @author …Ú»›÷€
@@ -15,6 +18,17 @@ public class JoinpointNodeFeedbackFigure extends JoinpointNodeFigure {
      */
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
-        super.paintFigure(g);
+        g.setAntialias(SWT.ON);
+        Rectangle r = getBounds().getCopy();
+        g.setForegroundColor(ColorConstants.black);
+        r.width = r.width - 1;
+        r.height = r.height - 1;
+        g.setBackgroundColor(ColorConstants.gray);
+        g.setAlpha(50);
+        g.fillOval(r);
+        g.setAlpha(255);
+        r.width = r.width - 1;
+        r.height = r.height - 1;
+        g.drawOval(r);
     }
 }
