@@ -15,13 +15,49 @@ public class FunctionNodeFigure extends NodeFigure {
     public FunctionNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
-        connectionAnchors.put(FunctionNode.IN, c);
+        connectionAnchors.put(FunctionNode.IN_1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
         c.leftToRight = false;
-        connectionAnchors.put(FunctionNode.OUT, c);
+        connectionAnchors.put(FunctionNode.IN_2, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.IN_3, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.IN_4, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.OUT_1, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.OUT_2, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.OUT_3, c);
+        outputConnectionAnchors.addElement(c);
+
+        c = new FixedConnectionAnchor(this);
+        c.offsetV = 19;
+        c.leftToRight = false;
+        connectionAnchors.put(FunctionNode.OUT_4, c);
         outputConnectionAnchors.addElement(c);
     }
 

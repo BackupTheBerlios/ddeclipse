@@ -11,16 +11,18 @@ import org.eclipse.swt.graphics.Image;
  * @author …Ú»›÷€
  */
 public class JoinpointNode extends SimpleNode {
-    public static String       OUT              = "OUT";
+    public static String OUT_1 = "OUT1";
 
-    public static String       IN_1             = "IN1";
+    public static String OUT_2 = "OUT2";
 
-    public static String       IN_2             = "IN2";
+    public static String IN_1 = "IN1";
 
-    static final long          serialVersionUID = 1;
+    public static String IN_2 = "IN2";
 
-    private static final Image ICON             = createImage(SimpleNode.class,
-                                                        "icons/and16.gif");
+    static final long serialVersionUID = 1;
+
+    private static final Image ICON = createImage(SimpleNode.class,
+            "icons/and16.gif");
 
     public JoinpointNode() {
         this.size = new Dimension(40, 40);
@@ -47,6 +49,7 @@ public class JoinpointNode extends SimpleNode {
         boolean bit[] = new boolean[2];
         bit[0] = getInput(IN_1);
         bit[1] = getInput(IN_2);
-        setOutput(OUT, bit[0] & bit[1]);
+        setOutput(OUT_2, bit[0] & bit[1]);
+        setOutput(OUT_1, bit[0] & bit[1]);
     }
 }

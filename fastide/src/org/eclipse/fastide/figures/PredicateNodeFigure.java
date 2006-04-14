@@ -18,13 +18,13 @@ public class PredicateNodeFigure extends NodeFigure {
 
     protected static PointList innerKite = null;
 
-    private static Point       p1        = new Point(19, 0);
+    private static Point p1 = new Point(19, 0);
 
-    private static Point       p2        = new Point(0, 19);
+    private static Point p2 = new Point(0, 19);
 
-    private static Point       p3        = new Point(19, 38);
+    private static Point p3 = new Point(19, 38);
 
-    private static Point       p4        = new Point(38, 19);
+    private static Point p4 = new Point(38, 19);
 
     static {
         outerKite = new PointList();
@@ -42,13 +42,13 @@ public class PredicateNodeFigure extends NodeFigure {
     public PredicateNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
-        connectionAnchors.put(PredicateNode.IN, c);
+        connectionAnchors.put(PredicateNode.IN_1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
         c.leftToRight = false;
-        connectionAnchors.put(PredicateNode.IN, c);
+        connectionAnchors.put(PredicateNode.IN_2, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);

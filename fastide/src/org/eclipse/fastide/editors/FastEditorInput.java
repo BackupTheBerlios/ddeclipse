@@ -10,8 +10,11 @@ import org.eclipse.ui.IPersistableElement;
 public class FastEditorInput implements IPathEditorInput {
     private IPath path;
 
+    private FastDiagram diagram;
+
     public FastEditorInput(IPath path) {
         this.path = path;
+        diagram = FastDiagramFactory.getRootElement();
     }
 
     public boolean exists() {
@@ -36,7 +39,7 @@ public class FastEditorInput implements IPathEditorInput {
 
     public String getToolTipText() {
         // TODO Auto-generated method stub
-        return null;
+        return "Fast Editor";
     }
 
     public Object getAdapter(Class adapter) {
@@ -50,6 +53,10 @@ public class FastEditorInput implements IPathEditorInput {
     }
 
     public FastDiagram getDiagram() {
-        return FastDiagramFactory.getRootElement();
+        return diagram;
+    }
+
+    public void setDiagram(FastDiagram diagram) {
+        this.diagram = diagram;
     }
 }

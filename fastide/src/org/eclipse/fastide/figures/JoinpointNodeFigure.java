@@ -27,12 +27,12 @@ public class JoinpointNodeFigure extends NodeFigure {
         c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
         c.leftToRight = false;
-        connectionAnchors.put(JoinpointNode.OUT, c);
+        connectionAnchors.put(JoinpointNode.OUT_2, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
         c.offsetV = 19;
-        connectionAnchors.put(JoinpointNode.OUT, c);
+        connectionAnchors.put(JoinpointNode.OUT_1, c);
         outputConnectionAnchors.addElement(c);
     }
 

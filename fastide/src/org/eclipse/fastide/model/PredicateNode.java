@@ -11,16 +11,18 @@ import org.eclipse.swt.graphics.Image;
  * @author …Ú»›÷€
  */
 public class PredicateNode extends SimpleNode {
-    public static String       IN               = "IN";
+    public static String IN_1 = "IN1";
 
-    public static String       OUT_1            = "OUT1";
+    public static String IN_2 = "IN2";
 
-    public static String       OUT_2            = "OUT2";
+    public static String OUT_1 = "OUT1";
 
-    static final long          serialVersionUID = 1;
+    public static String OUT_2 = "OUT2";
 
-    private static final Image ICON             = createImage(SimpleNode.class,
-                                                        "icons/or16.gif");
+    static final long serialVersionUID = 1;
+
+    private static final Image ICON = createImage(SimpleNode.class,
+            "icons/or16.gif");
 
     public PredicateNode() {
         this.size = new Dimension(40, 40);
@@ -44,8 +46,9 @@ public class PredicateNode extends SimpleNode {
      */
     public void update() {
         // TODO Auto-generated method stub
-        boolean bit = getInput(IN);
-        setOutput(OUT_1, bit);
-        setOutput(OUT_2, bit);
+        boolean bit1 = getInput(IN_1);
+        boolean bit2 = getInput(IN_2);
+        setOutput(OUT_1, bit1 | bit2);
+        setOutput(OUT_2, bit1 | bit2);
     }
 }

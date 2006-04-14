@@ -6,10 +6,9 @@ package org.eclipse.fastide.editors;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -30,13 +29,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -99,7 +93,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -109,17 +102,13 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -137,19 +126,19 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
 
     class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
-        private PageBook        pageBook;
+        private PageBook pageBook;
 
-        private Control         outline;
+        private Control outline;
 
-        private Canvas          overview;
+        private Canvas overview;
 
-        private IAction         showOutlineAction, showOverviewAction;
+        private IAction showOutlineAction, showOverviewAction;
 
-        static final int        ID_OUTLINE  = 0;
+        static final int ID_OUTLINE = 0;
 
-        static final int        ID_OVERVIEW = 1;
+        static final int ID_OVERVIEW = 1;
 
-        private Thumbnail       thumbnail;
+        private Thumbnail thumbnail;
 
         private DisposeListener disposeListener;
 
@@ -293,155 +282,27 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         }
     }
 
-    private KeyHandler  sharedKeyHandler;
+    private KeyHandler sharedKeyHandler;
 
     private PaletteRoot root;
 
     private OutlinePage outlinePage;
 
-    private boolean     editorSaving = false;
+    private boolean editorSaving = false;
 
-    // This class listens to changes to the file system in the workspace, and
-    // makes changes accordingly.
-    // 1) An open, saved file gets deleted -> close the editor
-    // 2) An open file gets renamed or moved -> change the editor's input
-    // accordingly
-    class ResourceTracker implements IResourceChangeListener,
-            IResourceDeltaVisitor {
-        public void resourceChanged(IResourceChangeEvent event) {
-            IResourceDelta delta = event.getDelta();
-            try {
-                if (delta != null)
-                    delta.accept(this);
-            } catch (CoreException exception) {
-                // What should be done here?
-            }
-        }
+    private FastDiagram fastDiagram = new FastDiagram();
 
-        public boolean visit(IResourceDelta delta) {
-            if (delta == null
-                    || !delta.getResource().equals(
-                            ((IFileEditorInput) getEditorInput()).getFile()))
-                return true;
+    private boolean savePreviouslyNeeded = false;
 
-            if (delta.getKind() == IResourceDelta.REMOVED) {
-                Display display = getSite().getShell().getDisplay();
-                if ((IResourceDelta.MOVED_TO & delta.getFlags()) == 0) { // if
-                    // the
-                    // file
-                    // was
-                    // deleted
-                    // NOTE: The case where an open, unsaved file is deleted is
-                    // being handled by the
-                    // PartListener added to the Workbench in the initialize()
-                    // method.
-                    display.asyncExec(new Runnable() {
-                        public void run() {
-                            if (!isDirty())
-                                closeEditor(false);
-                        }
-                    });
-                } else { // else if it was moved or renamed
-                    final IFile newFile = ResourcesPlugin.getWorkspace()
-                            .getRoot().getFile(delta.getMovedToPath());
-                    display.asyncExec(new Runnable() {
-                        public void run() {
-                            superSetInput(new FileEditorInput(newFile));
-                        }
-                    });
-                }
-            } else if (delta.getKind() == IResourceDelta.CHANGED) {
-                if (!editorSaving) {
-                    // the file was overwritten somehow (could have been
-                    // replaced by another
-                    // version in the respository)
-                    final IFile newFile = ResourcesPlugin.getWorkspace()
-                            .getRoot().getFile(delta.getFullPath());
-                    Display display = getSite().getShell().getDisplay();
-                    display.asyncExec(new Runnable() {
-                        public void run() {
-                            setInput(new FileEditorInput(newFile));
-                            getCommandStack().flush();
-                        }
-                    });
-                }
-            }
-            return false;
-        }
-    }
+    private RulerComposite rulerComp;
 
-    private IPartListener         partListener          = new IPartListener() {
-                                                            // If an open,
-                                                            // unsaved file was
-                                                            // deleted, query
-                                                            // the user to
-                                                            // either do a "Save
-                                                            // As"
-                                                            // or close the
-                                                            // editor.
-                                                            public void partActivated(
-                                                                    IWorkbenchPart part) {
-                                                                if (part != FastEditor.this)
-                                                                    return;
-                                                                if (!((IFileEditorInput) getEditorInput())
-                                                                        .getFile()
-                                                                        .exists()) {
-                                                                    Shell shell = getSite()
-                                                                            .getShell();
-                                                                    String title = "File deleted";
-                                                                    String message = "Close without save?";
-                                                                    String[] buttons = {
-            "Save", "Close"                                        };
-                                                                    MessageDialog dialog = new MessageDialog(
-                                                                            shell,
-                                                                            title,
-                                                                            null,
-                                                                            message,
-                                                                            MessageDialog.QUESTION,
-                                                                            buttons,
-                                                                            0);
-                                                                    if (dialog
-                                                                            .open() == 0) {
-                                                                        if (!performSaveAs())
-                                                                            partActivated(part);
-                                                                    } else {
-                                                                        closeEditor(false);
-                                                                    }
-                                                                }
-                                                            }
+    protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
 
-                                                            public void partBroughtToTop(
-                                                                    IWorkbenchPart part) {
-                                                            }
+    protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
 
-                                                            public void partClosed(
-                                                                    IWorkbenchPart part) {
-                                                            }
+    protected static final String PALETTE_STATE = "Palette state"; //$NON-NLS-1$
 
-                                                            public void partDeactivated(
-                                                                    IWorkbenchPart part) {
-                                                            }
-
-                                                            public void partOpened(
-                                                                    IWorkbenchPart part) {
-                                                            }
-                                                        };
-
-    private FastDiagram           fastDiagram           = new FastDiagram();
-
-    private boolean               savePreviouslyNeeded  = false;
-
-    private ResourceTracker       resourceListener      = new ResourceTracker();
-
-    private RulerComposite        rulerComp;
-
-    protected static final String PALETTE_DOCK_LOCATION = "Dock location";      //$NON-NLS-1$
-
-    protected static final String PALETTE_SIZE          = "Palette Size";       //$NON-NLS-1$
-
-    protected static final String PALETTE_STATE         = "Palette state";      //$NON-NLS-1$
-
-    protected static final int    DEFAULT_PALETTE_SIZE  = 130;
+    protected static final int DEFAULT_PALETTE_SIZE = 130;
 
     static {
         FastidePlugin.getDefault().getPreferenceStore().setDefault(
@@ -602,38 +463,22 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         };
     }
 
-    public void dispose() {
-        getSite().getWorkbenchWindow().getPartService().removePartListener(
-                partListener);
-        partListener = null;
-        ((IFileEditorInput) getEditorInput()).getFile().getWorkspace()
-                .removeResourceChangeListener(resourceListener);
-        super.dispose();
-    }
-
     public void doSave(IProgressMonitor progressMonitor) {
+        FastEditorInput in = (FastEditorInput) getEditorInput();
+        File file = in.getPath().toFile();
         try {
-            editorSaving = true;
-            saveProperties();
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            createOutputStream(out);
-            IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-            file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
-                    false, progressMonitor);
-            out.close();
-
-            File f = new File(file.getLocation().removeFileExtension()
-                    .addFileExtension("fsx").toOSString());
-            if (!f.exists())
-                f.createNewFile();
-            createXmlOutputStream(f);
-
-            getCommandStack().markSaveLocation();
-        } catch (Exception e) {
+            OutputStream stream = new FileOutputStream(file);
+            createOutputStream(stream);
+            file = in.getPath().removeFileExtension().addFileExtension("fsx")
+                    .toFile();
+            createXmlOutputStream(file);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-        } finally {
-            editorSaving = false;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        getCommandStack().markSaveLocation();
     }
 
     public void doSaveAs() {
@@ -931,16 +776,9 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
     public void setInput(IEditorInput input) {
         superSetInput(input);
 
-        IFile file = ((IFileEditorInput) input).getFile();
-        try {
-            InputStream is = file.getContents(false);
-            ObjectInputStream ois = new ObjectInputStream(is);
-            setFastDiagram((FastDiagram) ois.readObject());
-            ois.close();
-        } catch (Exception e) {
-            // This is just an example. All exceptions caught here.
-            e.printStackTrace();
-        }
+        FastEditorInput in = (FastEditorInput) input;
+        setFastDiagram(in.getDiagram());
+        setPartName(in.getName());
 
         if (!editorSaving) {
             if (getGraphicalViewer() != null) {
@@ -969,23 +807,6 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         // of proper implementation. Plus, the resourceListener needs to be
         // added
         // to the workspace the first time around.
-        if (getEditorInput() != null) {
-            IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-            file.getWorkspace().removeResourceChangeListener(resourceListener);
-        }
-
         super.setInput(input);
-
-        if (getEditorInput() != null) {
-            IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-            file.getWorkspace().addResourceChangeListener(resourceListener);
-            setPartName(file.getName());
-        }
-    }
-
-    protected void setSite(IWorkbenchPartSite site) {
-        super.setSite(site);
-        getSite().getWorkbenchWindow().getPartService().addPartListener(
-                partListener);
     }
 }

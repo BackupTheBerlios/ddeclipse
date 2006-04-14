@@ -1,6 +1,7 @@
 package org.eclipse.fastide.actions;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.fastide.editors.FastEditorInput;
@@ -22,7 +23,7 @@ public class NewFastDiagramAction extends Action {
     public void run() {
         // TODO Auto-generated method stub
         FileDialog fd = new FileDialog(window.getShell(), SWT.SAVE);
-        fd.setFilterExtensions(new String[] { "*.fst" });
+        fd.setFilterExtensions(new String[] { "*.fst", "*.*" });
         fd.setText("New...");
 
         if (fd.open() != null) {
@@ -31,6 +32,13 @@ public class NewFastDiagramAction extends Action {
             if (!fileName.endsWith(".fst"))
                 fileName = fileName.concat(".fst");
             File file = new File(fd.getFilterPath() + "/" + fileName);
+            if (!file.exists())
+                try {
+                    file.createNewFile();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             IWorkbenchPage page = window.getActivePage();
             Path path = new Path(file.getAbsolutePath());
             FastEditorInput input = new FastEditorInput(path);

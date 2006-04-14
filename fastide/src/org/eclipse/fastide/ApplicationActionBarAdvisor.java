@@ -1,6 +1,7 @@
 package org.eclipse.fastide;
 
 import org.eclipse.fastide.actions.NewFastDiagramAction;
+import org.eclipse.fastide.actions.OpenFastDiagramAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -14,7 +15,9 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
-    private IWorkbenchAction newAction;
+    private IAction newAction;
+
+    private IAction openAction;
 
     private IWorkbenchAction exitAction;
 
@@ -37,8 +40,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     }
 
     protected void makeActions(IWorkbenchWindow window) {
-        newAction = ActionFactory.NEW.create(window);
+        newAction = new NewFastDiagramAction(window);
         register(newAction);
+        openAction = new OpenFastDiagramAction(window);
+        register(openAction);
         exitAction = ActionFactory.QUIT.create(window);
         register(exitAction);
         saveAction = ActionFactory.SAVE.create(window);
@@ -68,6 +73,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 IWorkbenchActionConstants.M_HELP);
 
         fileMenu.add(newAction);
+        fileMenu.add(openAction);
         fileMenu.add(new Separator());
         fileMenu.add(closeAction);
         fileMenu.add(closeAllAction);

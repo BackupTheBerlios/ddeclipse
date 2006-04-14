@@ -11,18 +11,18 @@ import org.eclipse.swt.graphics.Image;
  * @author …Ú»›÷€
  */
 public class StartNode extends SimpleNode {
-    public static final String OUT1             = "OUT1";
+    public static final String OUT1 = "OUT1";
 
-    public static final String OUT2             = "OUT2";
+    public static final String OUT2 = "OUT2";
 
-    public static final String OUT3             = "OUT3";
+    public static final String OUT3 = "OUT3";
 
-    public static final String OUT4             = "OUT4";
+    public static final String OUT4 = "OUT4";
 
-    static final long          serialVersionUID = 1;
+    static final long serialVersionUID = 1;
 
-    private static final Image ICON             = createImage(SimpleNode.class,
-                                                        "icons/or16.gif");
+    private static final Image ICON = createImage(SimpleNode.class,
+            "icons/or16.gif");
 
     public StartNode() {
         size = new Dimension(20, 20);
