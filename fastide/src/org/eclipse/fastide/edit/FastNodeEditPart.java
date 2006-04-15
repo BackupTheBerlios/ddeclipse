@@ -17,7 +17,7 @@ import org.eclipse.fastide.figures.StartNodeFigure;
 import org.eclipse.fastide.model.FunctionNode;
 import org.eclipse.fastide.model.JoinpointNode;
 import org.eclipse.fastide.model.PredicateNode;
-import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.FastNode;
 import org.eclipse.fastide.model.StartNode;
 import org.eclipse.gef.AccessibleAnchorProvider;
 import org.eclipse.gef.AccessibleEditPart;
@@ -92,7 +92,7 @@ public class FastNodeEditPart extends FastEditPart {
         return super.getAdapter(key);
     }
 
-    public SimpleNode getSimpleNode() {
-        return (SimpleNode) getModel();
+    public FastNode getSimpleNode() {
+        return (FastNode) getModel();
     }
 }

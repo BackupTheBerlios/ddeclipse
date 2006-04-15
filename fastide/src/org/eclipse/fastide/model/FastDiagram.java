@@ -59,7 +59,7 @@ public class FastDiagram extends FastSubpart {
     }
 
     public void addChild(FastElement child, int index) {
-        if(index >= 0)
+        if (index >= 0)
             children.add(index, child);
         else
             children.add(child);
@@ -76,7 +76,7 @@ public class FastDiagram extends FastSubpart {
     }
 
     public Integer getConnectionRouter() {
-        if(connectionRouter == null)
+        if (connectionRouter == null)
             connectionRouter = ROUTER_MANUAL;
         return connectionRouter;
     }
@@ -93,13 +93,8 @@ public class FastDiagram extends FastSubpart {
         return zoom;
     }
 
-    /**
-     * Returns <code>null</code> for this model. Returns normal descriptors
-     * for all subclasses.
-     * @return Array of property descriptors.
-     */
     public IPropertyDescriptor[] getPropertyDescriptors() {
-        if(getClass().equals(FastDiagram.class)) {
+        if (getClass().equals(FastDiagram.class)) {
             ComboBoxPropertyDescriptor cbd = new ComboBoxPropertyDescriptor(
                     ID_ROUTER,
                     FastMessages.PropertyDescriptor_FastDiagram_ConnectionRouter,
@@ -114,7 +109,7 @@ public class FastDiagram extends FastSubpart {
     }
 
     public Object getPropertyValue(Object propName) {
-        if(propName.equals(ID_ROUTER))
+        if (propName.equals(ID_ROUTER))
             return connectionRouter;
         return super.getPropertyValue(propName);
     }
@@ -161,7 +156,7 @@ public class FastDiagram extends FastSubpart {
     }
 
     public void setPropertyValue(Object id, Object value) {
-        if(ID_ROUTER.equals(id))
+        if (ID_ROUTER.equals(id))
             setConnectionRouter((Integer) value);
         else
             super.setPropertyValue(id, value);
@@ -195,13 +190,13 @@ public class FastDiagram extends FastSubpart {
         }
 
         public String getText(Object element) {
-            if(element instanceof Integer) {
+            if (element instanceof Integer) {
                 Integer integer = (Integer) element;
-                if(ROUTER_MANUAL.intValue() == integer.intValue())
+                if (ROUTER_MANUAL.intValue() == integer.intValue())
                     return FastMessages.PropertyDescriptor_FastDiagram_Manual;
-                if(ROUTER_MANHATTAN.intValue() == integer.intValue())
+                if (ROUTER_MANHATTAN.intValue() == integer.intValue())
                     return FastMessages.PropertyDescriptor_FastDiagram_Manhattan;
-                if(ROUTER_SHORTEST_PATH.intValue() == integer.intValue())
+                if (ROUTER_SHORTEST_PATH.intValue() == integer.intValue())
                     return FastMessages.PropertyDescriptor_FastDiagram_ShortestPath;
             }
             return super.getText(element);

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastSubpart;
 
 /**
@@ -30,20 +30,20 @@ public class ConnectionCommand extends Command {
 
     protected String         targetTerminal;
 
-    protected ConnectionNode conn;
+    protected FastConnection conn;
 
     public ConnectionCommand() {
         super("create connection");
     }
 
     public boolean canExecute() {
-        if(target != null) {
+        if (target != null) {
             Vector conns = target.getConnections();
             Iterator i = conns.iterator();
             while (i.hasNext()) {
-                ConnectionNode conn = (ConnectionNode) i.next();
-                if(targetTerminal != null && conn.getTargetTerminal() != null)
-                    if(conn.getTargetTerminal().equals(targetTerminal)
+                FastConnection conn = (FastConnection) i.next();
+                if (targetTerminal != null && conn.getTargetTerminal() != null)
+                    if (conn.getTargetTerminal().equals(targetTerminal)
                             && conn.getTarget().equals(target))
                         return false;
             }
@@ -52,19 +52,19 @@ public class ConnectionCommand extends Command {
     }
 
     public void execute() {
-        if(source != null) {
+        if (source != null) {
             conn.detachSource();
             conn.setSource(source);
             conn.setSourceTerminal(sourceTerminal);
             conn.attachSource();
         }
-        if(target != null) {
+        if (target != null) {
             conn.detachTarget();
             conn.setTarget(target);
             conn.setTargetTerminal(targetTerminal);
             conn.attachTarget();
         }
-        if(source == null && target == null) {
+        if (source == null && target == null) {
             conn.detachSource();
             conn.detachTarget();
             conn.setTarget(null);
@@ -92,7 +92,7 @@ public class ConnectionCommand extends Command {
         return targetTerminal;
     }
 
-    public ConnectionNode getConnectionNode() {
+    public FastConnection getConnectionNode() {
         return conn;
     }
 
@@ -116,7 +116,7 @@ public class ConnectionCommand extends Command {
         targetTerminal = newTargetTerminal;
     }
 
-    public void setConnectionNode(ConnectionNode c) {
+    public void setConnectionNode(FastConnection c) {
         conn = c;
         oldSource = c.getSource();
         oldTarget = c.getTarget();

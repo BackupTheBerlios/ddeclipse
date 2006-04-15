@@ -20,8 +20,8 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.requests.DropRequest;
-import org.eclipse.fastide.figures.NodeFigure;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.figures.FastNodeFigure;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastSubpart;
 
 /**
@@ -33,7 +33,7 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
     private AccessibleEditPart acc;
 
     public void activate() {
-        if(isActive())
+        if (isActive())
             return;
         super.activate();
         getFastSubpart().addPropertyChangeListener(this);
@@ -53,20 +53,21 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
      * from the model's list of listeners.
      */
     public void deactivate() {
-        if(!isActive())
+        if (!isActive())
             return;
         super.deactivate();
         getFastSubpart().removePropertyChangeListener(this);
     }
 
     protected AccessibleEditPart getAccessibleEditPart() {
-        if(acc == null)
+        if (acc == null)
             acc = createAccessible();
         return acc;
     }
 
     /**
      * Returns the model associated with this as a FastSubPart.
+     * 
      * @return The model of this as a FastSubPart.
      */
     protected FastSubpart getFastSubpart() {
@@ -75,6 +76,7 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
 
     /**
      * Returns a list of connections for which this is the source.
+     * 
      * @return List of connections.
      */
     protected List getModelSourceConnections() {
@@ -83,6 +85,7 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
 
     /**
      * Returns a list of connections for which this is the target.
+     * 
      * @return List of connections.
      */
     protected List getModelTargetConnections() {
@@ -91,25 +94,28 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
 
     /**
      * Returns the Figure of this, as a node type figure.
+     * 
      * @return Figure as a NodeFigure.
      */
-    protected NodeFigure getNodeFigure() {
-        return (NodeFigure) getFigure();
+    protected FastNodeFigure getNodeFigure() {
+        return (FastNodeFigure) getFigure();
     }
 
     /**
      * Returns the connection anchor for the given ConnectionEditPart's source.
+     * 
      * @return ConnectionAnchor.
      */
     public ConnectionAnchor getSourceConnectionAnchor(
             ConnectionEditPart connEditPart) {
-        ConnectionNode wire = (ConnectionNode) connEditPart.getModel();
+        FastConnection wire = (FastConnection) connEditPart.getModel();
         return getNodeFigure().getConnectionAnchor(wire.getSourceTerminal());
     }
 
     /**
      * Returns the connection anchor of a source connection which is at the
      * given point.
+     * 
      * @return ConnectionAnchor.
      */
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
@@ -119,17 +125,19 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
 
     /**
      * Returns the connection anchor for the given ConnectionEditPart's target.
+     * 
      * @return ConnectionAnchor.
      */
     public ConnectionAnchor getTargetConnectionAnchor(
             ConnectionEditPart connEditPart) {
-        ConnectionNode wire = (ConnectionNode) connEditPart.getModel();
+        FastConnection wire = (FastConnection) connEditPart.getModel();
         return getNodeFigure().getConnectionAnchor(wire.getTargetTerminal());
     }
 
     /**
      * Returns the connection anchor of a terget connection which is at the
      * given point.
+     * 
      * @return ConnectionAnchor.
      */
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
@@ -139,6 +147,7 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
 
     /**
      * Returns the name of the given connection anchor.
+     * 
      * @return The name of the ConnectionAnchor as a String.
      */
     final protected String mapConnectionAnchorToTerminal(ConnectionAnchor c) {
@@ -149,12 +158,14 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
      * Handles changes in properties of this. It is activated through the
      * PropertyChangeListener. It updates children, source and target
      * connections, and the visuals of this based on the property changed.
-     * @param evt Event which details the property change.
+     * 
+     * @param evt
+     *            Event which details the property change.
      */
     public void propertyChange(PropertyChangeEvent evt) {
         String prop = evt.getPropertyName();
-        if(FastSubpart.CHILDREN.equals(prop)) {
-            if(evt.getOldValue() instanceof Integer)
+        if (FastSubpart.CHILDREN.equals(prop)) {
+            if (evt.getOldValue() instanceof Integer)
                 // new child
                 addChild(createChild(evt.getNewValue()), ((Integer) evt
                         .getOldValue()).intValue());
@@ -162,11 +173,11 @@ public abstract class FastEditPart extends AbstractGraphicalEditPart implements
                 // remove child
                 removeChild((EditPart) getViewer().getEditPartRegistry().get(
                         evt.getOldValue()));
-        } else if(FastSubpart.INPUTS.equals(prop))
+        } else if (FastSubpart.INPUTS.equals(prop))
             refreshTargetConnections();
-        else if(FastSubpart.OUTPUTS.equals(prop))
+        else if (FastSubpart.OUTPUTS.equals(prop))
             refreshSourceConnections();
-        else if(prop.equals(FastSubpart.ID_SIZE)
+        else if (prop.equals(FastSubpart.ID_SIZE)
                 || prop.equals(FastSubpart.ID_LOCATION))
             refreshVisuals();
     }

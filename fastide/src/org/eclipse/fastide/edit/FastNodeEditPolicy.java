@@ -15,8 +15,8 @@ import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.fastide.figures.FigureFactory;
-import org.eclipse.fastide.figures.NodeFigure;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.figures.FastNodeFigure;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastSubpart;
 import org.eclipse.fastide.model.commands.ConnectionCommand;
 
@@ -37,7 +37,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
         command.setTarget(getFastSubpart());
         ConnectionAnchor ctor = getFastEditPart().getTargetConnectionAnchor(
                 request);
-        if(ctor == null)
+        if (ctor == null)
             return null;
         command.setTargetTerminal(getFastEditPart()
                 .mapConnectionAnchorToTerminal(ctor));
@@ -46,7 +46,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
 
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
         ConnectionCommand command = new ConnectionCommand();
-        command.setConnectionNode(new ConnectionNode());
+        command.setConnectionNode(new FastConnection());
         command.setSource(getFastSubpart());
         ConnectionAnchor ctor = getFastEditPart().getSourceConnectionAnchor(
                 request);
@@ -58,6 +58,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
 
     /**
      * Feedback should be added to the scaled feedback layer.
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalEditPolicy#getFeedbackLayer()
      */
     protected IFigure getFeedbackLayer() {
@@ -78,7 +79,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
 
     protected Command getReconnectTargetCommand(ReconnectRequest request) {
         ConnectionCommand cmd = new ConnectionCommand();
-        cmd.setConnectionNode((ConnectionNode) request.getConnectionEditPart()
+        cmd.setConnectionNode((FastConnection) request.getConnectionEditPart()
                 .getModel());
 
         ConnectionAnchor ctor = getFastEditPart().getTargetConnectionAnchor(
@@ -91,7 +92,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
 
     protected Command getReconnectSourceCommand(ReconnectRequest request) {
         ConnectionCommand cmd = new ConnectionCommand();
-        cmd.setConnectionNode((ConnectionNode) request.getConnectionEditPart()
+        cmd.setConnectionNode((FastConnection) request.getConnectionEditPart()
                 .getModel());
 
         ConnectionAnchor ctor = getFastEditPart().getSourceConnectionAnchor(
@@ -102,7 +103,7 @@ public class FastNodeEditPolicy extends GraphicalNodeEditPolicy {
         return cmd;
     }
 
-    protected NodeFigure getNodeFigure() {
-        return (NodeFigure) ((GraphicalEditPart) getHost()).getFigure();
+    protected FastNodeFigure getNodeFigure() {
+        return (FastNodeFigure) ((GraphicalEditPart) getHost()).getFigure();
     }
 }

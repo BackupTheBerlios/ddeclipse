@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastDiagram;
 import org.eclipse.fastide.model.FastGuide;
 import org.eclipse.fastide.model.FastSubpart;
@@ -35,32 +35,32 @@ public class FastDeleteCommand extends Command {
     }
 
     private void deleteConnections(FastSubpart part) {
-        if(part instanceof FastDiagram) {
+        if (part instanceof FastDiagram) {
             List children = ((FastDiagram) part).getChildren();
             for (int i = 0; i < children.size(); i++)
                 deleteConnections((FastSubpart) children.get(i));
         }
         sourceConnections.addAll(part.getSourceConnections());
         for (int i = 0; i < sourceConnections.size(); i++) {
-            ConnectionNode conn = (ConnectionNode) sourceConnections.get(i);
+            FastConnection conn = (FastConnection) sourceConnections.get(i);
             conn.detachSource();
             conn.detachTarget();
         }
         targetConnections.addAll(part.getTargetConnections());
         for (int i = 0; i < targetConnections.size(); i++) {
-            ConnectionNode conn = (ConnectionNode) targetConnections.get(i);
+            FastConnection conn = (FastConnection) targetConnections.get(i);
             conn.detachSource();
             conn.detachTarget();
         }
     }
 
     private void detachFromGuides(FastSubpart part) {
-        if(part.getVerticalGuide() != null) {
+        if (part.getVerticalGuide() != null) {
             vGuide = part.getVerticalGuide();
             vAlign = vGuide.getAlignment(part);
             vGuide.detachPart(part);
         }
-        if(part.getHorizontalGuide() != null) {
+        if (part.getHorizontalGuide() != null) {
             hGuide = part.getHorizontalGuide();
             hAlign = hGuide.getAlignment(part);
             hGuide.detachPart(part);
@@ -80,9 +80,9 @@ public class FastDeleteCommand extends Command {
     }
 
     private void reattachToGuides(FastSubpart part) {
-        if(vGuide != null)
+        if (vGuide != null)
             vGuide.attachPart(part, vAlign);
-        if(hGuide != null)
+        if (hGuide != null)
             hGuide.attachPart(part, hAlign);
     }
 
@@ -92,13 +92,13 @@ public class FastDeleteCommand extends Command {
 
     private void restoreConnections() {
         for (int i = 0; i < sourceConnections.size(); i++) {
-            ConnectionNode conn = (ConnectionNode) sourceConnections.get(i);
+            FastConnection conn = (FastConnection) sourceConnections.get(i);
             conn.attachSource();
             conn.attachTarget();
         }
         sourceConnections.clear();
         for (int i = 0; i < targetConnections.size(); i++) {
-            ConnectionNode conn = (ConnectionNode) targetConnections.get(i);
+            FastConnection conn = (FastConnection) targetConnections.get(i);
             conn.attachSource();
             conn.attachTarget();
         }

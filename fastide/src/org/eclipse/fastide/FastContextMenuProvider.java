@@ -28,6 +28,7 @@ public class FastContextMenuProvider extends ContextMenuProvider {
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.ContextMenuProvider#menuAboutToShow(org.eclipse.jface.action.IMenuManager)
      */
     public void buildContextMenu(IMenuManager manager) {
@@ -42,47 +43,47 @@ public class FastContextMenuProvider extends ContextMenuProvider {
         manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
         action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
-        if(action.isEnabled())
+        if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
-        if(action.isEnabled())
+        if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
         action = getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT);
-        if(action.isEnabled())
+        if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
         // Alignment Actions
         MenuManager submenu = new MenuManager("Alignment");
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_LEFT);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_CENTER);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_RIGHT);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
         submenu.add(new Separator());
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_TOP);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_MIDDLE);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
         action = getActionRegistry().getAction(GEFActionConstants.ALIGN_BOTTOM);
-        if(action.isEnabled())
+        if (action.isEnabled())
             submenu.add(action);
 
-        if(!submenu.isEmpty())
+        if (!submenu.isEmpty())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, submenu);
 
         action = getActionRegistry().getAction(ActionFactory.SAVE.getId());

@@ -11,7 +11,7 @@ import org.eclipse.fastide.model.FunctionNode;
 /**
  * @author …Ú»›÷€
  */
-public class FunctionNodeFigure extends NodeFigure {
+public class FunctionNodeFigure extends FastNodeFigure {
     public FunctionNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
         c.offsetV = 19;

@@ -65,25 +65,25 @@ public abstract class FastSubpart extends FastElement {
         setID(getNewID());
     }
 
-    public void connectInput(ConnectionNode conn) {
+    public void connectInput(FastConnection conn) {
         inputs.put(conn.getTargetTerminal(), conn);
         update();
         fireStructureChange(INPUTS, conn);
     }
 
-    public void connectOutput(ConnectionNode conn) {
+    public void connectOutput(FastConnection conn) {
         outputs.addElement(conn);
         update();
         fireStructureChange(OUTPUTS, conn);
     }
 
-    public void disconnectInput(ConnectionNode conn) {
+    public void disconnectInput(FastConnection conn) {
         inputs.remove(conn.getTargetTerminal());
         update();
         fireStructureChange(INPUTS, conn);
     }
 
-    public void disconnectOutput(ConnectionNode conn) {
+    public void disconnectOutput(FastConnection conn) {
         outputs.removeElement(conn);
         update();
         fireStructureChange(OUTPUTS, conn);
@@ -112,7 +112,7 @@ public abstract class FastSubpart extends FastElement {
     }
 
     protected boolean getInput(String terminal) {
-        ConnectionNode conn = (ConnectionNode) inputs.get(terminal);
+        FastConnection conn = (FastConnection) inputs.get(terminal);
         return (conn == null) ? false : conn.getValue();
     }
 
@@ -125,6 +125,7 @@ public abstract class FastSubpart extends FastElement {
     /**
      * Returns useful property descriptors for the use in property sheets. this
      * supports location and size.
+     * 
      * @return Array of property descriptors.
      */
     public IPropertyDescriptor[] getPropertyDescriptors() {
@@ -134,13 +135,15 @@ public abstract class FastSubpart extends FastElement {
     /**
      * Returns an Object which represents the appropriate value for the property
      * name supplied.
-     * @param propName Name of the property for which the the values are needed.
+     * 
+     * @param propName
+     *            Name of the property for which the the values are needed.
      * @return Object which is the value of the property.
      */
     public Object getPropertyValue(Object propName) {
-        if(ID_SIZE.equals(propName))
+        if (ID_SIZE.equals(propName))
             return new DimensionPropertySource(getSize());
-        else if(ID_LOCATION.equals(propName))
+        else if (ID_LOCATION.equals(propName))
             return new LocationPropertySource(getLocation());
         return null;
     }
@@ -188,7 +191,7 @@ public abstract class FastSubpart extends FastElement {
     }
 
     public void setLocation(Point p) {
-        if(location.equals(p))
+        if (location.equals(p))
             return;
         location = p;
         firePropertyChange("location", null, p); //$NON-NLS-1$
@@ -196,10 +199,10 @@ public abstract class FastSubpart extends FastElement {
 
     protected void setOutput(String terminal, boolean val) {
         Enumeration elements = outputs.elements();
-        ConnectionNode conn;
+        FastConnection conn;
         while (elements.hasMoreElements()) {
-            conn = (ConnectionNode) elements.nextElement();
-            if(conn.getSourceTerminal().equals(terminal)
+            conn = (FastConnection) elements.nextElement();
+            if (conn.getSourceTerminal().equals(terminal)
                     && this.equals(conn.getSource()))
                 conn.setValue(val);
         }
@@ -208,18 +211,21 @@ public abstract class FastSubpart extends FastElement {
     /**
      * Sets the value of a given property with the value supplied. Also fires a
      * property change if necessary.
-     * @param id Name of the parameter to be changed.
-     * @param value Value to be set to the given parameter.
+     * 
+     * @param id
+     *            Name of the parameter to be changed.
+     * @param value
+     *            Value to be set to the given parameter.
      */
     public void setPropertyValue(Object id, Object value) {
-        if(ID_SIZE.equals(id))
+        if (ID_SIZE.equals(id))
             setSize((Dimension) value);
-        else if(ID_LOCATION.equals(id))
+        else if (ID_LOCATION.equals(id))
             setLocation((Point) value);
     }
 
     public void setSize(Dimension d) {
-        if(size.equals(d))
+        if (size.equals(d))
             return;
         size = d;
         firePropertyChange("size", null, size); //$NON-NLS-1$
@@ -237,12 +243,12 @@ public abstract class FastSubpart extends FastElement {
         Element fastsubpart = super.getXml(doc);
 
         Element temp = null;
-        if(verticalGuide != null) {
+        if (verticalGuide != null) {
             temp = verticalGuide.getXml(doc);
             fastsubpart.appendChild(temp);
         }
 
-        if(horizontalGuide != null) {
+        if (horizontalGuide != null) {
             temp = horizontalGuide.getXml(doc);
             fastsubpart.appendChild(temp);
         }

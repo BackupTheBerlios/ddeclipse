@@ -18,6 +18,7 @@ public class FastPasteTemplateAction extends PasteTemplateAction {
 
     /**
      * Constructor for LogicPasteTemplateAction.
+     * 
      * @param editor
      */
     public FastPasteTemplateAction(IEditorPart editor) {
@@ -28,7 +29,7 @@ public class FastPasteTemplateAction extends PasteTemplateAction {
      * @see org.eclipse.gef.examples.logicdesigner.actions.PasteTemplateAction#getFactory(java.lang.Object)
      */
     protected CreationFactory getFactory(Object template) {
-        if(template instanceof String)
+        if (template instanceof String)
             return new FastElementFactory((String) template);
         return null;
     }

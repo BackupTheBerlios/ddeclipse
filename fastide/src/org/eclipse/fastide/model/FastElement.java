@@ -17,8 +17,8 @@ import org.w3c.dom.Element;
 /**
  * @author …Ú»›÷€
  */
-public class FastElement implements IPropertySource, Cloneable, Serializable,
-        XmlModel {
+public abstract class FastElement implements IPropertySource, Cloneable,
+        Serializable, XmlModel {
 
     public static final String                INPUTS           = "inputs";
 
@@ -98,6 +98,7 @@ public class FastElement implements IPropertySource, Cloneable, Serializable,
 
     /**
      * DOCUMENT ME!
+     * 
      * @param in
      * @throws IOException
      * @throws ClassNotFoundException

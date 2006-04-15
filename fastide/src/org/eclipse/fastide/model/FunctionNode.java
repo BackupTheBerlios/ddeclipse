@@ -10,27 +10,27 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author …Ú»›÷€
  */
-public class FunctionNode extends SimpleNode {
-    public static String IN_1 = "IN1";
+public class FunctionNode extends FastNode {
+    public static String       IN_1             = "IN1";
 
-    public static String IN_2 = "IN2";
+    public static String       IN_2             = "IN2";
 
-    public static String IN_3 = "IN3";
+    public static String       IN_3             = "IN3";
 
-    public static String IN_4 = "IN4";
+    public static String       IN_4             = "IN4";
 
-    public static String OUT_1 = "OUT1";
+    public static String       OUT_1            = "OUT1";
 
-    public static String OUT_2 = "OUT2";
+    public static String       OUT_2            = "OUT2";
 
-    public static String OUT_3 = "OUT3";
+    public static String       OUT_3            = "OUT3";
 
-    public static String OUT_4 = "OUT4";
+    public static String       OUT_4            = "OUT4";
 
-    static final long serialVersionUID = 1;
+    static final long          serialVersionUID = 1;
 
-    private static final Image ICON = createImage(SimpleNode.class,
-            "icons/xor16.gif");
+    private static final Image ICON             = createImage(FastNode.class,
+                                                        "icons/xor16.gif");
 
     public FunctionNode() {
         this.size = new Dimension(40, 40);

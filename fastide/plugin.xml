@@ -73,5 +73,33 @@
                value="Fast SDK&#x0A;&#x0A;Version: 1.0.0"/>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="Fast Commands"
+            id="org.eclipse.fastide.commands"
+            name="FAST"/>
+      <command
+            categoryId="org.eclipse.fastide.commands"
+            description="Create a new FAST Diagram"
+            id="org.eclipse.fastide.newAction"
+            name="New Fast Diagram"/>
+      <command
+            categoryId="org.eclipse.fastide.commands"
+            id="org.eclipse.fastide.openAction"
+            name="Open Fast Diagram"/>
+      <keyBinding
+            commandId="org.eclipse.fastide.newAction"
+            keyConfigurationId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            keySequence="M1+M2+N"/>
+      <keyBinding
+            commandId="org.eclipse.ui.file.exit"
+            keyConfigurationId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            keySequence="M1+Q"/>
+      <keyBinding
+            commandId="org.eclipse.fastide.openAction"
+            keyConfigurationId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            keySequence="M1+M2+O"/>
+   </extension>
 
 </plugin>

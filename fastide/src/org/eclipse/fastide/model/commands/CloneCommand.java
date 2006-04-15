@@ -12,15 +12,15 @@ import java.util.Vector;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.fastide.model.ConnectionBendpoint;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastBendpoint;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastDiagram;
 import org.eclipse.fastide.model.FastGuide;
 import org.eclipse.fastide.model.FastSubpart;
 import org.eclipse.fastide.model.FunctionNode;
 import org.eclipse.fastide.model.JoinpointNode;
 import org.eclipse.fastide.model.PredicateNode;
-import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.FastNode;
 
 /**
  * @author …Ú»›÷€
@@ -45,7 +45,7 @@ public class CloneCommand extends Command {
 
     public void addPart(FastSubpart part, Rectangle newBounds) {
         parts.add(part);
-        if(bounds == null) {
+        if (bounds == null) {
             bounds = new HashMap();
         }
         bounds.put(part, newBounds);
@@ -53,7 +53,7 @@ public class CloneCommand extends Command {
 
     public void addPart(FastSubpart part, int index) {
         parts.add(part);
-        if(indices == null) {
+        if (indices == null) {
             indices = new HashMap();
         }
         indices.put(part, new Integer(index));
@@ -64,21 +64,21 @@ public class CloneCommand extends Command {
             int index) {
         FastSubpart newPart = null;
 
-        if(oldPart instanceof FunctionNode) {
+        if (oldPart instanceof FunctionNode) {
             newPart = new FunctionNode();
-            newPart.setPropertyValue(SimpleNode.NAME_PROP, oldPart
-                    .getPropertyValue(SimpleNode.NAME_PROP));
-        } else if(oldPart instanceof JoinpointNode) {
+            newPart.setPropertyValue(FastNode.NAME_PROP, oldPart
+                    .getPropertyValue(FastNode.NAME_PROP));
+        } else if (oldPart instanceof JoinpointNode) {
             newPart = new JoinpointNode();
-            newPart.setPropertyValue(SimpleNode.NAME_PROP, oldPart
-                    .getPropertyValue(SimpleNode.NAME_PROP));
-        } else if(oldPart instanceof PredicateNode) {
+            newPart.setPropertyValue(FastNode.NAME_PROP, oldPart
+                    .getPropertyValue(FastNode.NAME_PROP));
+        } else if (oldPart instanceof PredicateNode) {
             newPart = new PredicateNode();
-            newPart.setPropertyValue(SimpleNode.NAME_PROP, oldPart
-                    .getPropertyValue(SimpleNode.NAME_PROP));
+            newPart.setPropertyValue(FastNode.NAME_PROP, oldPart
+                    .getPropertyValue(FastNode.NAME_PROP));
         }
 
-        if(oldPart instanceof FastDiagram) {
+        if (oldPart instanceof FastDiagram) {
             Iterator i = ((FastDiagram) oldPart).getChildren().iterator();
             while (i.hasNext()) {
                 // for children they will not need new bounds
@@ -89,8 +89,8 @@ public class CloneCommand extends Command {
 
         Iterator i = oldPart.getTargetConnections().iterator();
         while (i.hasNext()) {
-            ConnectionNode connection = (ConnectionNode) i.next();
-            ConnectionNode newConnection = new ConnectionNode();
+            FastConnection connection = (FastConnection) i.next();
+            FastConnection newConnection = new FastConnection();
             newConnection.setValue(connection.getValue());
             newConnection.setTarget(newPart);
             newConnection.setTargetTerminal(connection.getTargetTerminal());
@@ -101,8 +101,8 @@ public class CloneCommand extends Command {
             Vector newBendPoints = new Vector();
 
             while (b.hasNext()) {
-                ConnectionBendpoint bendPoint = (ConnectionBendpoint) b.next();
-                ConnectionBendpoint newBendPoint = new ConnectionBendpoint();
+                FastBendpoint bendPoint = (FastBendpoint) b.next();
+                FastBendpoint newBendPoint = new FastBendpoint();
                 newBendPoint.setRelativeDimensions(bendPoint
                         .getFirstRelativeDimension(), bendPoint
                         .getSecondRelativeDimension());
@@ -114,7 +114,7 @@ public class CloneCommand extends Command {
             newConnections.add(newConnection);
         }
 
-        if(index < 0) {
+        if (index < 0) {
             newParent.addChild(newPart);
         } else {
             newParent.addChild(newPart, index);
@@ -122,7 +122,7 @@ public class CloneCommand extends Command {
 
         newPart.setSize(oldPart.getSize());
 
-        if(newBounds != null) {
+        if (newBounds != null) {
             newPart.setLocation(newBounds.getTopLeft());
         } else {
             newPart.setLocation(oldPart.getLocation());
@@ -132,7 +132,7 @@ public class CloneCommand extends Command {
         // keep track of the oldpart -> newpart map so that we can properly
         // attach
         // all connections.
-        if(newParent == parent)
+        if (newParent == parent)
             newTopLevelParts.add(newPart);
         connectionPartMap.put(oldPart, newPart);
     }
@@ -147,10 +147,10 @@ public class CloneCommand extends Command {
         FastSubpart part = null;
         while (i.hasNext()) {
             part = (FastSubpart) i.next();
-            if(bounds != null && bounds.containsKey(part)) {
+            if (bounds != null && bounds.containsKey(part)) {
                 clonePart(part, parent, (Rectangle) bounds.get(part),
                         newConnections, connectionPartMap, -1);
-            } else if(indices != null && indices.containsKey(part)) {
+            } else if (indices != null && indices.containsKey(part)) {
                 clonePart(part, parent, null, newConnections,
                         connectionPartMap, ((Integer) indices.get(part))
                                 .intValue());
@@ -165,23 +165,23 @@ public class CloneCommand extends Command {
         Iterator c = newConnections.iterator();
 
         while (c.hasNext()) {
-            ConnectionNode conn = (ConnectionNode) c.next();
+            FastConnection conn = (FastConnection) c.next();
             FastSubpart source = conn.getSource();
-            if(connectionPartMap.containsKey(source)) {
+            if (connectionPartMap.containsKey(source)) {
                 conn.setSource((FastSubpart) connectionPartMap.get(source));
                 conn.attachSource();
                 conn.attachTarget();
             }
         }
 
-        if(hGuide != null) {
+        if (hGuide != null) {
             hGuideCommand = new ChangeGuideCommand(
                     (FastSubpart) connectionPartMap.get(parts.get(0)), true);
             hGuideCommand.setNewGuide(hGuide, hAlignment);
             hGuideCommand.execute();
         }
 
-        if(vGuide != null) {
+        if (vGuide != null) {
             vGuideCommand = new ChangeGuideCommand(
                     (FastSubpart) connectionPartMap.get(parts.get(0)), false);
             vGuideCommand.setNewGuide(vGuide, vAlignment);
@@ -197,22 +197,22 @@ public class CloneCommand extends Command {
         for (Iterator iter = newTopLevelParts.iterator(); iter.hasNext();)
             parent.addChild((FastSubpart) iter.next());
         for (Iterator iter = newConnections.iterator(); iter.hasNext();) {
-            ConnectionNode conn = (ConnectionNode) iter.next();
+            FastConnection conn = (FastConnection) iter.next();
             FastSubpart source = conn.getSource();
-            if(connectionPartMap.containsKey(source)) {
+            if (connectionPartMap.containsKey(source)) {
                 conn.setSource((FastSubpart) connectionPartMap.get(source));
                 conn.attachSource();
                 conn.attachTarget();
             }
         }
-        if(hGuideCommand != null)
+        if (hGuideCommand != null)
             hGuideCommand.redo();
-        if(vGuideCommand != null)
+        if (vGuideCommand != null)
             vGuideCommand.redo();
     }
 
     public void setGuide(FastGuide guide, int alignment, boolean isHorizontal) {
-        if(isHorizontal) {
+        if (isHorizontal) {
             hGuide = guide;
             hAlignment = alignment;
         } else {
@@ -222,9 +222,9 @@ public class CloneCommand extends Command {
     }
 
     public void undo() {
-        if(hGuideCommand != null)
+        if (hGuideCommand != null)
             hGuideCommand.undo();
-        if(vGuideCommand != null)
+        if (vGuideCommand != null)
             vGuideCommand.undo();
         for (Iterator iter = newTopLevelParts.iterator(); iter.hasNext();)
             parent.removeChild((FastSubpart) iter.next());

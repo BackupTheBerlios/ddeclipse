@@ -6,7 +6,7 @@ package org.eclipse.fastide.edit;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.fastide.model.FastDiagram;
-import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.FastNode;
 
 /**
  * @author …Ú»›÷€
@@ -19,9 +19,9 @@ public class TreePartFactory implements EditPartFactory {
      */
     public EditPart createEditPart(EditPart context, Object model) {
         // TODO Auto-generated method stub
-        if(model instanceof FastDiagram)
+        if (model instanceof FastDiagram)
             return new FastContainerTreeEditPart(model);
-        else if(model instanceof SimpleNode)
+        else if (model instanceof FastNode)
             return new FastTreeEditPart(model);
         return new FastTreeEditPart(model);
     }

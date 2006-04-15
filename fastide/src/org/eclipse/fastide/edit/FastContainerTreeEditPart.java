@@ -32,13 +32,14 @@ public class FastContainerTreeEditPart extends FastTreeEditPart {
                 new FastTreeContainerEditPolicy());
         // If this editpart is the contents of the viewer, then it is not
         // deletable!
-        if(getParent() instanceof RootEditPart)
+        if (getParent() instanceof RootEditPart)
             installEditPolicy(EditPolicy.COMPONENT_ROLE,
                     new RootComponentEditPolicy());
     }
 
     /**
      * Returns the model of this as a FastDiagram.
+     * 
      * @return Model of this.
      */
     protected FastDiagram getFastDiagram() {
@@ -48,6 +49,7 @@ public class FastContainerTreeEditPart extends FastTreeEditPart {
     /**
      * Returns the children of this from the model, as this is capable enough of
      * holding EditParts.
+     * 
      * @return List of children.
      */
     protected List getModelChildren() {

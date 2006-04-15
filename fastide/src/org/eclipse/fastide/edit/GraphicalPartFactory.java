@@ -5,9 +5,9 @@ package org.eclipse.fastide.edit;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.FastDiagram;
-import org.eclipse.fastide.model.SimpleNode;
+import org.eclipse.fastide.model.FastNode;
 
 /**
  * @author …Ú»›÷€
@@ -21,11 +21,11 @@ public class GraphicalPartFactory implements EditPartFactory {
     public EditPart createEditPart(EditPart context, Object model) {
         // TODO Auto-generated method stub
         EditPart child = null;
-        if(model instanceof ConnectionNode)
+        if (model instanceof FastConnection)
             child = new ConnectionNodeEditPart();
-        else if(model instanceof SimpleNode)
+        else if (model instanceof FastNode)
             child = new FastNodeEditPart();
-        else if(model instanceof FastDiagram)
+        else if (model instanceof FastDiagram)
             child = new FastDiagramEditPart();
         child.setModel(model);
         return child;

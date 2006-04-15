@@ -13,7 +13,7 @@ public class FastNumberCellEditorValidator implements ICellEditorValidator {
     private static FastNumberCellEditorValidator instance;
 
     public static FastNumberCellEditorValidator instance() {
-        if(instance == null)
+        if (instance == null)
             instance = new FastNumberCellEditorValidator();
         return instance;
     }

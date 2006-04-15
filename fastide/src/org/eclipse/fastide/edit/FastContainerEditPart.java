@@ -38,6 +38,7 @@ public abstract class FastContainerEditPart extends FastEditPart {
 
     /**
      * Returns the model of this as a FastDiagram.
+     * 
      * @return FastDiagram of this.
      */
     protected FastDiagram getFastDiagram() {
@@ -46,6 +47,7 @@ public abstract class FastContainerEditPart extends FastEditPart {
 
     /**
      * Returns the children of this through the model.
+     * 
      * @return Children of this as a List.
      */
     protected List getModelChildren() {

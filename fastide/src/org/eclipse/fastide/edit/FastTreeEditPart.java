@@ -25,7 +25,9 @@ public class FastTreeEditPart extends AbstractTreeEditPart implements
 
     /**
      * Constructor initializes this with the given model.
-     * @param model Model for this.
+     * 
+     * @param model
+     *            Model for this.
      */
     public FastTreeEditPart(Object model) {
         super(model);
@@ -54,6 +56,7 @@ public class FastTreeEditPart extends AbstractTreeEditPart implements
 
     /**
      * Returns the model of this as a FastSubPart.
+     * 
      * @return Model of this.
      */
     protected FastSubpart getFastSubpart() {
@@ -63,6 +66,7 @@ public class FastTreeEditPart extends AbstractTreeEditPart implements
     /**
      * Returns <code>null</code> as a Tree EditPart holds no children under
      * it.
+     * 
      * @return <code>null</code>
      */
     protected List getModelChildren() {
@@ -70,8 +74,8 @@ public class FastTreeEditPart extends AbstractTreeEditPart implements
     }
 
     public void propertyChange(PropertyChangeEvent change) {
-        if(change.getPropertyName().equals(FastDiagram.CHILDREN)) {
-            if(change.getOldValue() instanceof Integer)
+        if (change.getPropertyName().equals(FastDiagram.CHILDREN)) {
+            if (change.getOldValue() instanceof Integer)
                 // new child
                 addChild(createChild(change.getNewValue()), ((Integer) change
                         .getOldValue()).intValue());
@@ -86,14 +90,16 @@ public class FastTreeEditPart extends AbstractTreeEditPart implements
     /**
      * Refreshes the Widget of this based on the property given to update. All
      * major properties are updated irrespective of the property input.
-     * @param property Property to be refreshed.
+     * 
+     * @param property
+     *            Property to be refreshed.
      */
     protected void refreshVisuals() {
-        if(getWidget() instanceof Tree)
+        if (getWidget() instanceof Tree)
             return;
         Image image = getFastSubpart().getIcon();
         TreeItem item = (TreeItem) getWidget();
-        if(image != null)
+        if (image != null)
             image.setBackground(item.getParent().getBackground());
         setWidgetImage(image);
         setWidgetText(getFastSubpart().toString());

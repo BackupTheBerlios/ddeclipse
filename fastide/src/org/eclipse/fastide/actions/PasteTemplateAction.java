@@ -22,6 +22,7 @@ public abstract class PasteTemplateAction extends SelectionAction {
 
     /**
      * Constructor for PasteTemplateAction.
+     * 
      * @param editor
      */
     public PasteTemplateAction(IWorkbenchPart editor) {
@@ -42,19 +43,20 @@ public abstract class PasteTemplateAction extends SelectionAction {
     /**
      * Creates and returns a command (which may be <code>null</code>) to
      * create a new EditPart based on the template on the clipboard.
+     * 
      * @return the paste command
      */
     protected Command createPasteCommand() {
         Command result = null;
         List selection = getSelectedObjects();
-        if(selection != null && selection.size() == 1) {
+        if (selection != null && selection.size() == 1) {
             Object obj = selection.get(0);
-            if(obj instanceof GraphicalEditPart) {
+            if (obj instanceof GraphicalEditPart) {
                 GraphicalEditPart gep = (GraphicalEditPart) obj;
                 Object template = getClipboardContents();
-                if(template != null) {
+                if (template != null) {
                     CreationFactory factory = getFactory(template);
-                    if(factory != null) {
+                    if (factory != null) {
                         CreateRequest request = new CreateRequest();
                         request.setFactory(factory);
                         request.setLocation(getPasteLocation(gep));
@@ -70,6 +72,7 @@ public abstract class PasteTemplateAction extends SelectionAction {
      * Returns the template on the clipboard, if there is one. Note that the
      * template on the clipboard might be from a palette from another type of
      * editor.
+     * 
      * @return the clipboard's contents
      */
     protected Object getClipboardContents() {
@@ -82,13 +85,16 @@ public abstract class PasteTemplateAction extends SelectionAction {
      * target EditPart. Note that the given template might be from a palette for
      * a different GEF-based editor. In that case, this method can return
      * <code>null</code>.
-     * @param template the template Object; it will never be <code>null</code>
+     * 
+     * @param template
+     *            the template Object; it will never be <code>null</code>
      * @return a Factory
      */
     protected abstract CreationFactory getFactory(Object template);
 
     /**
-     * @param container the parent of the new part that is being pasted
+     * @param container
+     *            the parent of the new part that is being pasted
      * @return the location at which
      */
     protected abstract Point getPasteLocation(GraphicalEditPart container);

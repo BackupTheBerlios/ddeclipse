@@ -75,6 +75,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
 
     /**
      * Returns a Figure to represent this.
+     * 
      * @return Figure.
      */
     protected IFigure createFigure() {
@@ -89,24 +90,24 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class adapter) {
-        if(adapter == SnapToHelper.class) {
+        if (adapter == SnapToHelper.class) {
             List snapStrategies = new ArrayList();
             Boolean val = (Boolean) getViewer().getProperty(
                     RulerProvider.PROPERTY_RULER_VISIBILITY);
-            if(val != null && val.booleanValue())
+            if (val != null && val.booleanValue())
                 snapStrategies.add(new SnapToGuides(this));
             val = (Boolean) getViewer().getProperty(
                     SnapToGeometry.PROPERTY_SNAP_ENABLED);
-            if(val != null && val.booleanValue())
+            if (val != null && val.booleanValue())
                 snapStrategies.add(new SnapToGeometry(this));
             val = (Boolean) getViewer().getProperty(
                     SnapToGrid.PROPERTY_GRID_ENABLED);
-            if(val != null && val.booleanValue())
+            if (val != null && val.booleanValue())
                 snapStrategies.add(new SnapToGrid(this));
 
-            if(snapStrategies.size() == 0)
+            if (snapStrategies.size() == 0)
                 return null;
-            if(snapStrategies.size() == 1)
+            if (snapStrategies.size() == 1)
                 return (SnapToHelper) snapStrategies.get(0);
 
             SnapToHelper ss[] = new SnapToHelper[snapStrategies.size()];
@@ -118,7 +119,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
     }
 
     public DragTracker getDragTracker(Request req) {
-        if(req instanceof SelectionRequest
+        if (req instanceof SelectionRequest
                 && ((SelectionRequest) req).getLastButtonPressed() == 3)
             return new DeselectAllTracker(this);
         return new MarqueeDragTracker();
@@ -126,6 +127,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
 
     /**
      * Returns <code>NULL</code> as it does not hold any connections.
+     * 
      * @return ConnectionAnchor
      */
     public ConnectionAnchor getSourceConnectionAnchor(
@@ -135,6 +137,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
 
     /**
      * Returns <code>NULL</code> as it does not hold any connections.
+     * 
      * @return ConnectionAnchor
      */
     public ConnectionAnchor getSourceConnectionAnchor(int x, int y) {
@@ -143,6 +146,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
 
     /**
      * Returns <code>NULL</code> as it does not hold any connections.
+     * 
      * @return ConnectionAnchor
      */
     public ConnectionAnchor getTargetConnectionAnchor(
@@ -152,6 +156,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
 
     /**
      * Returns <code>NULL</code> as it does not hold any connections.
+     * 
      * @return ConnectionAnchor
      */
     public ConnectionAnchor getTargetConnectionAnchor(int x, int y) {
@@ -159,7 +164,7 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if(FastDiagram.ID_ROUTER.equals(evt.getPropertyName()))
+        if (FastDiagram.ID_ROUTER.equals(evt.getPropertyName()))
             refreshVisuals();
         else
             super.propertyChange(evt);
@@ -169,12 +174,12 @@ public class FastDiagramEditPart extends FastContainerEditPart implements
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(CONNECTION_LAYER);
         cLayer.setAntialias(SWT.ON);
 
-        if(getFastDiagram().getConnectionRouter().equals(
+        if (getFastDiagram().getConnectionRouter().equals(
                 FastDiagram.ROUTER_MANUAL)) {
             AutomaticRouter router = new FanRouter();
             router.setNextRouter(new BendpointConnectionRouter());
             cLayer.setConnectionRouter(router);
-        } else if(getFastDiagram().getConnectionRouter().equals(
+        } else if (getFastDiagram().getConnectionRouter().equals(
                 FastDiagram.ROUTER_MANHATTAN))
             cLayer.setConnectionRouter(new ManhattanConnectionRouter());
         else

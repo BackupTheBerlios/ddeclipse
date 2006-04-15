@@ -8,7 +8,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.BendpointEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastConnection;
 import org.eclipse.fastide.model.commands.BendpointCommand;
 import org.eclipse.fastide.model.commands.CreateBendpointCommand;
 import org.eclipse.fastide.model.commands.DeleteBendpointCommand;
@@ -34,7 +34,7 @@ public class ConnectionNodeBendpointEditPolicy extends BendpointEditPolicy {
         conn.translateToRelative(ref2);
 
         com.setRelativeDimensions(p.getDifference(ref1), p.getDifference(ref2));
-        com.setConnectionNode((ConnectionNode) request.getSource().getModel());
+        com.setConnectionNode((FastConnection) request.getSource().getModel());
         com.setIndex(request.getIndex());
         return com;
     }
@@ -55,7 +55,7 @@ public class ConnectionNodeBendpointEditPolicy extends BendpointEditPolicy {
         conn.translateToRelative(ref2);
 
         com.setRelativeDimensions(p.getDifference(ref1), p.getDifference(ref2));
-        com.setConnectionNode((ConnectionNode) request.getSource().getModel());
+        com.setConnectionNode((FastConnection) request.getSource().getModel());
         com.setIndex(request.getIndex());
         return com;
     }
@@ -64,7 +64,7 @@ public class ConnectionNodeBendpointEditPolicy extends BendpointEditPolicy {
         BendpointCommand com = new DeleteBendpointCommand();
         Point p = request.getLocation();
         com.setLocation(p);
-        com.setConnectionNode((ConnectionNode) request.getSource().getModel());
+        com.setConnectionNode((FastConnection) request.getSource().getModel());
         com.setIndex(request.getIndex());
         return com;
     }

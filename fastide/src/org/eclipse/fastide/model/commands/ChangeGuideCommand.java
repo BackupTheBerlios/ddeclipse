@@ -27,13 +27,13 @@ public class ChangeGuideCommand extends Command {
 
     protected void changeGuide(FastGuide oldGuide, FastGuide newGuide,
             int newAlignment) {
-        if(oldGuide != null && oldGuide != newGuide) {
+        if (oldGuide != null && oldGuide != newGuide) {
             oldGuide.detachPart(part);
         }
         // You need to re-attach the part even if the oldGuide and the newGuide
         // are the same
         // because the alignment could have changed
-        if(newGuide != null) {
+        if (newGuide != null) {
             newGuide.attachPart(part, newAlignment);
         }
     }
@@ -42,7 +42,7 @@ public class ChangeGuideCommand extends Command {
         // Cache the old values
         oldGuide = horizontal ? part.getHorizontalGuide() : part
                 .getVerticalGuide();
-        if(oldGuide != null)
+        if (oldGuide != null)
             oldAlign = oldGuide.getAlignment(part);
 
         redo();

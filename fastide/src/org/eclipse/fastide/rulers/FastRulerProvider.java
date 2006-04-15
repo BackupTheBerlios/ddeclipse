@@ -26,13 +26,13 @@ public class FastRulerProvider extends RulerProvider {
     private PropertyChangeListener rulerListener = new PropertyChangeListener() {
                                                      public void propertyChange(
                                                              PropertyChangeEvent evt) {
-                                                         if(evt
+                                                         if (evt
                                                                  .getPropertyName()
                                                                  .equals(
                                                                          FastRuler.PROPERTY_CHILDREN)) {
                                                              FastGuide guide = (FastGuide) evt
                                                                      .getNewValue();
-                                                             if(getGuides()
+                                                             if (getGuides()
                                                                      .contains(
                                                                              guide)) {
                                                                  guide
@@ -62,7 +62,7 @@ public class FastRulerProvider extends RulerProvider {
     private PropertyChangeListener guideListener = new PropertyChangeListener() {
                                                      public void propertyChange(
                                                              PropertyChangeEvent evt) {
-                                                         if(evt
+                                                         if (evt
                                                                  .getPropertyName()
                                                                  .equals(
                                                                          FastGuide.PROPERTY_CHILDREN)) {

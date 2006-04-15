@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -49,8 +50,10 @@ public class FastGuide extends FastElement {
 
     /**
      * Constructor
-     * @param isHorizontal <code>true</code> if the guide is horizontal (i.e.,
-     *            placed on a vertical ruler)
+     * 
+     * @param isHorizontal
+     *            <code>true</code> if the guide is horizontal (i.e., placed
+     *            on a vertical ruler)
      */
     public FastGuide(boolean isHorizontal) {
         setHorizontal(isHorizontal);
@@ -69,21 +72,24 @@ public class FastGuide extends FastElement {
     /**
      * Attaches the given part along the given edge to this guide. The
      * FastSubpart is also updated to reflect this attachment.
-     * @param part The part that is to be attached to this guide; if the part is
+     * 
+     * @param part
+     *            The part that is to be attached to this guide; if the part is
      *            already attached, its alignment is updated
-     * @param alignment -1 is left or top; 0, center; 1, right or bottom
+     * @param alignment
+     *            -1 is left or top; 0, center; 1, right or bottom
      */
     public void attachPart(FastSubpart part, int alignment) {
-        if(getMap().containsKey(part) && getAlignment(part) == alignment)
+        if (getMap().containsKey(part) && getAlignment(part) == alignment)
             return;
 
         getMap().put(part, new Integer(alignment));
         FastGuide parent = isHorizontal() ? part.getHorizontalGuide() : part
                 .getVerticalGuide();
-        if(parent != null && parent != this) {
+        if (parent != null && parent != this) {
             parent.detachPart(part);
         }
-        if(isHorizontal()) {
+        if (isHorizontal()) {
             part.setHorizontalGuide(this);
         } else {
             part.setVerticalGuide(this);
@@ -94,12 +100,14 @@ public class FastGuide extends FastElement {
     /**
      * Detaches the given part from this guide. The LogicSubpart is also updated
      * to reflect this change.
-     * @param part the part that is to be detached from this guide
+     * 
+     * @param part
+     *            the part that is to be detached from this guide
      */
     public void detachPart(FastSubpart part) {
-        if(getMap().containsKey(part)) {
+        if (getMap().containsKey(part)) {
             getMap().remove(part);
-            if(isHorizontal()) {
+            if (isHorizontal()) {
                 part.setHorizontalGuide(null);
             } else {
                 part.setVerticalGuide(null);
@@ -114,7 +122,9 @@ public class FastGuide extends FastElement {
      * {@link org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy LogicXYLayoutEditPolicy}
      * to determine whether to attach or detach a part from a guide during
      * resize operations.
-     * @param part The part whose alignment has to be found
+     * 
+     * @param part
+     *            The part whose alignment has to be found
      * @return an int representing the edge along which the given part is
      *         attached to this guide; 1 is bottom or right; 0, center; -1, top
      *         or left; -2 if the part is not attached to this guide
@@ -122,7 +132,7 @@ public class FastGuide extends FastElement {
      *      EditPart, Object)
      */
     public int getAlignment(FastSubpart part) {
-        if(getMap().get(part) != null)
+        if (getMap().get(part) != null)
             return ((Integer) getMap().get(part)).intValue();
         return -2;
     }
@@ -133,7 +143,7 @@ public class FastGuide extends FastElement {
      *         Integers
      */
     public Map getMap() {
-        if(map == null) {
+        if (map == null) {
             map = new Hashtable();
         }
         return map;
@@ -171,8 +181,10 @@ public class FastGuide extends FastElement {
 
     /**
      * Sets the orientation of the guide
-     * @param isHorizontal <code>true</code> if this guide is to be placed on
-     *            a vertical ruler
+     * 
+     * @param isHorizontal
+     *            <code>true</code> if this guide is to be placed on a
+     *            vertical ruler
      */
     public void setHorizontal(boolean isHorizontal) {
         horizontal = isHorizontal;
@@ -180,10 +192,12 @@ public class FastGuide extends FastElement {
 
     /**
      * Sets the location of the guide
-     * @param offset The location of the guide (in pixels)
+     * 
+     * @param offset
+     *            The location of the guide (in pixels)
      */
     public void setPosition(int offset) {
-        if(position != offset) {
+        if (position != offset) {
             int oldValue = position;
             position = offset;
             listeners.firePropertyChange(PROPERTY_POSITION, new Integer(
@@ -205,6 +219,18 @@ public class FastGuide extends FastElement {
         temp = doc.createElement("horizontal");
         temp.appendChild(doc.createTextNode(Boolean.toString(horizontal)));
         guide.appendChild(temp);
+
+        temp = doc.createElement("map");
+        Set entries = map.entrySet();
+        for (Object entry : entries) {
+            Element t = doc.createElement("part");
+            FastSubpart part = (FastSubpart) ((Entry) entry).getKey();
+            t.appendChild(doc.createTextNode(part.getID()));
+            temp.appendChild(t);
+            t = doc.createElement("alignment");
+            t.appendChild(doc.createTextNode(((Entry) entry).getValue()
+                    .toString()));
+        }
 
         return guide;
     }

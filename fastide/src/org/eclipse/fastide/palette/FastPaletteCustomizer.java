@@ -21,7 +21,7 @@ public class FastPaletteCustomizer extends PaletteCustomizer {
      * @see org.eclipse.gef.ui.palette.PaletteCustomizer#getPropertiesPage(PaletteEntry)
      */
     public EntryPage getPropertiesPage(PaletteEntry entry) {
-        if(entry.getType().equals(PaletteDrawer.PALETTE_TYPE_DRAWER)) {
+        if (entry.getType().equals(PaletteDrawer.PALETTE_TYPE_DRAWER)) {
             return new FastDrawerEntryPage();
         }
         return new FastEntryPage();
@@ -41,7 +41,7 @@ public class FastPaletteCustomizer extends PaletteCustomizer {
 
     private class FastEntryPage extends DefaultEntryPage {
         protected void handleNameChanged(String text) {
-            if(text.indexOf('*') >= 0) {
+            if (text.indexOf('*') >= 0) {
                 getPageContainer().showProblem(ERROR_MESSAGE);
             } else {
                 super.handleNameChanged(text);
@@ -52,7 +52,7 @@ public class FastPaletteCustomizer extends PaletteCustomizer {
 
     private class FastDrawerEntryPage extends DrawerEntryPage {
         protected void handleNameChanged(String text) {
-            if(text.indexOf('*') >= 0) {
+            if (text.indexOf('*') >= 0) {
                 getPageContainer().showProblem(ERROR_MESSAGE);
             } else {
                 super.handleNameChanged(text);

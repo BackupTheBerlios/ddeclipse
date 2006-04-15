@@ -22,7 +22,7 @@ public class FastAddCommand extends Command {
     }
 
     public void execute() {
-        if(index < 0)
+        if (index < 0)
             parent.addChild(child);
         else
             parent.addChild(child, index);
@@ -33,7 +33,7 @@ public class FastAddCommand extends Command {
     }
 
     public void redo() {
-        if(index < 0)
+        if (index < 0)
             parent.addChild(child);
         else
             parent.addChild(child, index);

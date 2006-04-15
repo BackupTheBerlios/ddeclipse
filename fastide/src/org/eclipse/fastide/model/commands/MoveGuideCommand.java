@@ -30,7 +30,7 @@ public class MoveGuideCommand extends Command {
         while (iter.hasNext()) {
             FastSubpart part = (FastSubpart) iter.next();
             Point location = part.getLocation().getCopy();
-            if(guide.isHorizontal()) {
+            if (guide.isHorizontal()) {
                 location.y += pDelta;
             } else {
                 location.x += pDelta;
@@ -45,7 +45,7 @@ public class MoveGuideCommand extends Command {
         while (iter.hasNext()) {
             FastSubpart part = (FastSubpart) iter.next();
             Point location = part.getLocation().getCopy();
-            if(guide.isHorizontal()) {
+            if (guide.isHorizontal()) {
                 location.y -= pDelta;
             } else {
                 location.x -= pDelta;

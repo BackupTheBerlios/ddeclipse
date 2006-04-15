@@ -15,14 +15,14 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
  */
 public class FastTreeEditPolicy extends AbstractEditPolicy {
     public Command getCommand(Request req) {
-        if(REQ_MOVE.equals(req.getType()))
+        if (REQ_MOVE.equals(req.getType()))
             return getMoveCommand((ChangeBoundsRequest) req);
         return null;
     }
 
     protected Command getMoveCommand(ChangeBoundsRequest req) {
         EditPart parent = getHost().getParent();
-        if(parent != null) {
+        if (parent != null) {
             ChangeBoundsRequest request = new ChangeBoundsRequest(
                     REQ_MOVE_CHILDREN);
             request.setEditParts(getHost());

@@ -10,19 +10,19 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author …Ú»›÷€
  */
-public class JoinpointNode extends SimpleNode {
-    public static String OUT_1 = "OUT1";
+public class JoinpointNode extends FastNode {
+    public static String       OUT_1            = "OUT1";
 
-    public static String OUT_2 = "OUT2";
+    public static String       OUT_2            = "OUT2";
 
-    public static String IN_1 = "IN1";
+    public static String       IN_1             = "IN1";
 
-    public static String IN_2 = "IN2";
+    public static String       IN_2             = "IN2";
 
-    static final long serialVersionUID = 1;
+    static final long          serialVersionUID = 1;
 
-    private static final Image ICON = createImage(SimpleNode.class,
-            "icons/and16.gif");
+    private static final Image ICON             = createImage(FastNode.class,
+                                                        "icons/and16.gif");
 
     public JoinpointNode() {
         this.size = new Dimension(40, 40);

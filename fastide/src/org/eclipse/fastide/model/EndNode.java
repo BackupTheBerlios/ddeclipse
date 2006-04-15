@@ -10,19 +10,19 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author …Ú»›÷€
  */
-public class EndNode extends SimpleNode {
-    public static final String IN1 = "IN1";
+public class EndNode extends FastNode {
+    public static final String IN1              = "IN1";
 
-    public static final String IN2 = "IN2";
+    public static final String IN2              = "IN2";
 
-    public static final String IN3 = "IN3";
+    public static final String IN3              = "IN3";
 
-    public static final String IN4 = "IN4";
+    public static final String IN4              = "IN4";
 
-    static final long serialVersionUID = 1;
+    static final long          serialVersionUID = 1;
 
-    private static final Image ICON = createImage(SimpleNode.class,
-            "icons/or16.gif");
+    private static final Image ICON             = createImage(FastNode.class,
+                                                        "icons/or16.gif");
 
     public EndNode() {
         size = new Dimension(20, 20);
@@ -49,7 +49,7 @@ public class EndNode extends SimpleNode {
     }
 
     /**
-     * @see org.eclipse.fastide.model.SimpleNode#getIconImage()
+     * @see org.eclipse.fastide.model.FastNode#getIconImage()
      */
     public Image getIconImage() {
         // TODO Auto-generated method stub

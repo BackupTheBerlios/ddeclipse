@@ -11,7 +11,7 @@ import org.eclipse.fastide.model.JoinpointNode;
 /**
  * @author …Ú»›÷€
  */
-public class JoinpointNodeFigure extends NodeFigure {
+public class JoinpointNodeFigure extends FastNodeFigure {
     public JoinpointNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
         c.offsetH = 19;

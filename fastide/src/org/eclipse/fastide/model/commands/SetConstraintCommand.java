@@ -30,7 +30,7 @@ public class SetConstraintCommand extends Command {
     }
 
     public String getLabel() {
-        if(oldSize.equals(newSize))
+        if (oldSize.equals(newSize))
             return "location";
         return "resize";
     }

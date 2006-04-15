@@ -34,6 +34,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
@@ -103,6 +104,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -126,19 +128,21 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
 
     class OutlinePage extends ContentOutlinePage implements IAdaptable {
 
-        private PageBook pageBook;
+        private PageBook        pageBook;
 
-        private Control outline;
+        private Control         outline;
 
-        private Canvas overview;
+        private Canvas          overview;
 
-        private IAction showOutlineAction, showOverviewAction;
+        private IAction         showOutlineAction;
 
-        static final int ID_OUTLINE = 0;
+        private IAction         showOverviewAction;
 
-        static final int ID_OVERVIEW = 1;
+        static final int        ID_OUTLINE  = 0;
 
-        private Thumbnail thumbnail;
+        static final int        ID_OVERVIEW = 1;
+
+        private Thumbnail       thumbnail;
 
         private DisposeListener disposeListener;
 
@@ -146,6 +150,20 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
             super(viewer);
         }
 
+        /**
+         * <p>
+         * Initializes the outline page by contributing to the action bar
+         * </p>
+         * Actions added:<br />
+         * <ul>
+         * <li>undo</li>
+         * <li>redo</li>
+         * <li>delete</li>
+         * </ul>
+         * 
+         * @param pageSite
+         *            site that the page exists in
+         */
         public void init(IPageSite pageSite) {
             super.init(pageSite);
             ActionRegistry registry = getActionRegistry();
@@ -178,7 +196,7 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
                 }
             };
             showOutlineAction.setImageDescriptor(ImageDescriptor
-                    .createFromFile(FastEditor.class, "icons/outline.gif")); //$NON-NLS-1$
+                    .createFromFile(FastEditor.class, "icons/outline.gif"));
             tbm.add(showOutlineAction);
             showOverviewAction = new Action() {
                 public void run() {
@@ -186,11 +204,14 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
                 }
             };
             showOverviewAction.setImageDescriptor(ImageDescriptor
-                    .createFromFile(FastEditor.class, "icons/overview.gif")); //$NON-NLS-1$
+                    .createFromFile(FastEditor.class, "icons/overview.gif"));
             tbm.add(showOverviewAction);
             showPage(ID_OUTLINE);
         }
 
+        /**
+         *
+         */
         public void createControl(Composite parent) {
             pageBook = new PageBook(parent, SWT.NONE);
             outline = getViewer().createControl(pageBook);
@@ -282,27 +303,25 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         }
     }
 
-    private KeyHandler sharedKeyHandler;
+    private KeyHandler            sharedKeyHandler;
 
-    private PaletteRoot root;
+    private PaletteRoot           root;
 
-    private OutlinePage outlinePage;
+    private OutlinePage           outlinePage;
 
-    private boolean editorSaving = false;
+    private FastDiagram           fastDiagram           = new FastDiagram();
 
-    private FastDiagram fastDiagram = new FastDiagram();
+    private boolean               savePreviouslyNeeded  = false;
 
-    private boolean savePreviouslyNeeded = false;
+    private RulerComposite        rulerComp;
 
-    private RulerComposite rulerComp;
+    protected static final String PALETTE_DOCK_LOCATION = "Dock location";  //$NON-NLS-1$
 
-    protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
+    protected static final String PALETTE_SIZE          = "Palette Size";   //$NON-NLS-1$
 
-    protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
+    protected static final String PALETTE_STATE         = "Palette state";  //$NON-NLS-1$
 
-    protected static final String PALETTE_STATE = "Palette state"; //$NON-NLS-1$
-
-    protected static final int DEFAULT_PALETTE_SIZE = 130;
+    protected static final int    DEFAULT_PALETTE_SIZE  = 130;
 
     static {
         FastidePlugin.getDefault().getPreferenceStore().setDefault(
@@ -472,6 +491,7 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
             file = in.getPath().removeFileExtension().addFileExtension("fsx")
                     .toFile();
             createXmlOutputStream(file);
+            saveProperties();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -482,7 +502,36 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     public void doSaveAs() {
-
+        FileDialog fd = new FileDialog(getSite().getWorkbenchWindow()
+                .getShell(), SWT.SAVE);
+        fd.setText("Save As");
+        if (fd.open() != null) {
+            String fileName = fd.getFileName();
+            File newFile = new File(fd.getFilterPath() + "/" + fileName);
+            if (!newFile.exists())
+                try {
+                    newFile.createNewFile();
+                } catch (IOException exception) {
+                    // TODO Auto-generated catch block
+                    exception.printStackTrace();
+                }
+            Path path = new Path(newFile.getAbsolutePath());
+            try {
+                OutputStream out = new FileOutputStream(newFile);
+                createOutputStream(out);
+                newFile = path.removeFileExtension().addFileExtension("fsx")
+                        .toFile();
+                createXmlOutputStream(newFile);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            FastEditorInput input = new FastEditorInput(path);
+            input.setDiagram(getFastDiagram());
+            setInput(input);
+        }
     }
 
     public Object getAdapter(Class type) {
@@ -555,7 +604,7 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
 
     protected PaletteRoot getPaletteRoot() {
         if (root == null) {
-            root = FastidePlugin.createPalette();
+            root = FastEditorPaletteFactory.createPalette();
         }
         return root;
     }
@@ -703,7 +752,6 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         getGraphicalViewer().setProperty(
                 MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
                 MouseWheelZoomHandler.SINGLETON);
-
     }
 
     protected boolean performSaveAs() {
@@ -775,19 +823,15 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
 
     public void setInput(IEditorInput input) {
         superSetInput(input);
-
         FastEditorInput in = (FastEditorInput) input;
         setFastDiagram(in.getDiagram());
         setPartName(in.getName());
-
-        if (!editorSaving) {
-            if (getGraphicalViewer() != null) {
-                getGraphicalViewer().setContents(getFastDiagram());
-                loadProperties();
-            }
-            if (outlinePage != null) {
-                outlinePage.setContents(getFastDiagram());
-            }
+        if (getGraphicalViewer() != null) {
+            getGraphicalViewer().setContents(getFastDiagram());
+            loadProperties();
+        }
+        if (outlinePage != null) {
+            outlinePage.setContents(getFastDiagram());
         }
     }
 
@@ -800,13 +844,6 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     protected void superSetInput(IEditorInput input) {
-        // The workspace never changes for an editor. So, removing and re-adding
-        // the
-        // resourceListener is not necessary. But it is being done here for the
-        // sake
-        // of proper implementation. Plus, the resourceListener needs to be
-        // added
-        // to the workspace the first time around.
         super.setInput(input);
     }
 }

@@ -15,9 +15,9 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
-    private IAction newAction;
+    private IAction          newAction;
 
-    private IAction openAction;
+    private IAction          openAction;
 
     private IWorkbenchAction exitAction;
 
@@ -28,6 +28,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private IWorkbenchAction undoAction;
 
     private IWorkbenchAction redoAction;
+
+    private IWorkbenchAction copyAction;
+
+    private IWorkbenchAction pasteAction;
 
     private IWorkbenchAction aboutAction;
 
@@ -50,6 +54,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(saveAction);
         saveAsAction = ActionFactory.SAVE_AS.create(window);
         register(saveAsAction);
+        copyAction = ActionFactory.COPY.create(window);
+        register(copyAction);
+        pasteAction = ActionFactory.PASTE.create(window);
+        register(pasteAction);
         undoAction = ActionFactory.UNDO.create(window);
         register(undoAction);
         redoAction = ActionFactory.REDO.create(window);
@@ -86,6 +94,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
         editMenu.add(undoAction);
         editMenu.add(redoAction);
+        editMenu.add(new Separator());
+        editMenu.add(copyAction);
+        editMenu.add(pasteAction);
         menuBar.add(editMenu);
 
         menuBar.add(navMenu);

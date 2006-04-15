@@ -6,7 +6,7 @@ package org.eclipse.fastide.model.commands;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastConnection;
 
 /**
  * @author …Ú»›÷€
@@ -16,7 +16,7 @@ public class BendpointCommand extends Command {
 
     protected Point          location;
 
-    protected ConnectionNode conn;
+    protected FastConnection conn;
 
     private Dimension        d1, d2;
 
@@ -36,7 +36,7 @@ public class BendpointCommand extends Command {
         return location;
     }
 
-    protected ConnectionNode getConnectionNode() {
+    protected FastConnection getConnectionNode() {
         return conn;
     }
 
@@ -57,7 +57,7 @@ public class BendpointCommand extends Command {
         location = p;
     }
 
-    public void setConnectionNode(ConnectionNode c) {
+    public void setConnectionNode(FastConnection c) {
         conn = c;
     }
 }

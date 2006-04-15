@@ -45,10 +45,10 @@ public class DimensionPropertySource implements IPropertySource {
     }
 
     public Object getPropertyValue(String propName) {
-        if(HEIGHT_PROP.equals(propName)) {
+        if (HEIGHT_PROP.equals(propName)) {
             return new String(new Integer(dimension.height).toString());
         }
-        if(WIDTH_PROP.equals(propName)) {
+        if (WIDTH_PROP.equals(propName)) {
             return new String(new Integer(dimension.width).toString());
         }
         return null;
@@ -59,11 +59,11 @@ public class DimensionPropertySource implements IPropertySource {
     }
 
     public void setPropertyValue(String propName, Object value) {
-        if(HEIGHT_PROP.equals(propName)) {
+        if (HEIGHT_PROP.equals(propName)) {
             Integer newInt = new Integer((String) value);
             dimension.height = newInt.intValue();
         }
-        if(WIDTH_PROP.equals(propName)) {
+        if (WIDTH_PROP.equals(propName)) {
             Integer newInt = new Integer((String) value);
             dimension.width = newInt.intValue();
         }
@@ -84,7 +84,7 @@ public class DimensionPropertySource implements IPropertySource {
     }
 
     public boolean isPropertySet(String propName) {
-        if(HEIGHT_PROP.equals(propName) || WIDTH_PROP.equals(propName))
+        if (HEIGHT_PROP.equals(propName) || WIDTH_PROP.equals(propName))
             return true;
         return false;
     }

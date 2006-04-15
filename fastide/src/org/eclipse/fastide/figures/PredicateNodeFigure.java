@@ -13,18 +13,18 @@ import org.eclipse.fastide.model.PredicateNode;
 /**
  * @author …Ú»›÷€
  */
-public class PredicateNodeFigure extends NodeFigure {
+public class PredicateNodeFigure extends FastNodeFigure {
     protected static PointList outerKite = null;
 
     protected static PointList innerKite = null;
 
-    private static Point p1 = new Point(19, 0);
+    private static Point       p1        = new Point(19, 0);
 
-    private static Point p2 = new Point(0, 19);
+    private static Point       p2        = new Point(0, 19);
 
-    private static Point p3 = new Point(19, 38);
+    private static Point       p3        = new Point(19, 38);
 
-    private static Point p4 = new Point(38, 19);
+    private static Point       p4        = new Point(38, 19);
 
     static {
         outerKite = new PointList();

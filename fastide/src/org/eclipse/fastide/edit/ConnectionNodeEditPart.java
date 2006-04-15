@@ -20,8 +20,8 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.fastide.figures.FigureFactory;
-import org.eclipse.fastide.model.ConnectionBendpoint;
-import org.eclipse.fastide.model.ConnectionNode;
+import org.eclipse.fastide.model.FastBendpoint;
+import org.eclipse.fastide.model.FastConnection;
 
 /**
  * @author …Ú»›÷€
@@ -65,10 +65,11 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
 
     /**
      * Returns a newly created Figure to represent the connection.
+     * 
      * @return The created Figure.
      */
     protected IFigure createFigure() {
-        if(getConnectionNode() == null)
+        if (getConnectionNode() == null)
             return null;
         Connection connx = FigureFactory
                 .createNewBendableConnectionNode(getConnectionNode());
@@ -87,7 +88,7 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
     }
 
     public AccessibleEditPart getAccessibleEditPart() {
-        if(acc == null)
+        if (acc == null)
             acc = new AccessibleGraphicalEditPart() {
                 public void getName(AccessibleEvent e) {
                     e.result = "Connection";
@@ -98,14 +99,16 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
 
     /**
      * Returns the model of this represented as a ConnectionNode.
+     * 
      * @return Model of this as <code>ConnectionNode</code>
      */
-    protected ConnectionNode getConnectionNode() {
-        return (ConnectionNode) getModel();
+    protected FastConnection getConnectionNode() {
+        return (FastConnection) getModel();
     }
 
     /**
      * Returns the Figure associated with this, which draws the ConnectionNode.
+     * 
      * @return Figure of this.
      */
     protected IFigure getConnectionNodeFigure() {
@@ -115,17 +118,19 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
     /**
      * Listens to changes in properties of the ConnectionNode (like the contents
      * being carried), and reflects is in the visuals.
-     * @param event Event notifying the change.
+     * 
+     * @param event
+     *            Event notifying the change.
      */
     public void propertyChange(PropertyChangeEvent event) {
         String property = event.getPropertyName();
-        if(Connection.PROPERTY_CONNECTION_ROUTER.equals(property)) {
+        if (Connection.PROPERTY_CONNECTION_ROUTER.equals(property)) {
             refreshBendpoints();
             refreshBendpointEditPolicy();
         }
-        if("value".equals(property)) //$NON-NLS-1$
+        if ("value".equals(property)) //$NON-NLS-1$
             refreshVisuals();
-        if("bendpoint".equals(property)) //$NON-NLS-1$
+        if ("bendpoint".equals(property)) //$NON-NLS-1$
             refreshBendpoints();
     }
 
@@ -133,12 +138,12 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
      * Updates the bendpoints, based on the model.
      */
     protected void refreshBendpoints() {
-        if(getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter)
+        if (getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter)
             return;
         List modelConstraint = getConnectionNode().getBendpoints();
         List figureConstraint = new ArrayList();
         for (int i = 0; i < modelConstraint.size(); i++) {
-            ConnectionBendpoint cbp = (ConnectionBendpoint) modelConstraint
+            FastBendpoint cbp = (FastBendpoint) modelConstraint
                     .get(i);
             RelativeBendpoint rbp = new RelativeBendpoint(getConnectionFigure());
             rbp.setRelativeDimensions(cbp.getFirstRelativeDimension(), cbp
@@ -150,7 +155,7 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
     }
 
     private void refreshBendpointEditPolicy() {
-        if(getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter)
+        if (getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter)
             installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, null);
         else
             installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE,
@@ -164,7 +169,7 @@ public class ConnectionNodeEditPart extends AbstractConnectionEditPart
      */
     protected void refreshVisuals() {
         refreshBendpoints();
-        if(getConnectionNode().getValue())
+        if (getConnectionNode().getValue())
             getConnectionNodeFigure().setForegroundColor(alive);
         else
             getConnectionNodeFigure().setForegroundColor(dead);

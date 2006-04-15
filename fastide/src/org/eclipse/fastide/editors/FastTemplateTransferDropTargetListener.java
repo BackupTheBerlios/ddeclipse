@@ -19,7 +19,7 @@ public class FastTemplateTransferDropTargetListener extends
     }
 
     protected CreationFactory getFactory(Object template) {
-        if(template instanceof String)
+        if (template instanceof String)
             return new FastElementFactory((String) template);
         return null;
     }

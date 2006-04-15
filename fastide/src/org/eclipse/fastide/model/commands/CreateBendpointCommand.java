@@ -3,14 +3,14 @@
  */
 package org.eclipse.fastide.model.commands;
 
-import org.eclipse.fastide.model.ConnectionBendpoint;
+import org.eclipse.fastide.model.FastBendpoint;
 
 /**
  * @author …Ú»›÷€
  */
 public class CreateBendpointCommand extends BendpointCommand {
     public void execute() {
-        ConnectionBendpoint wbp = new ConnectionBendpoint();
+        FastBendpoint wbp = new FastBendpoint();
         wbp.setRelativeDimensions(getFirstRelativeDimension(),
                 getSecondRelativeDimension());
         getConnectionNode().insertBendpoint(getIndex(), wbp);

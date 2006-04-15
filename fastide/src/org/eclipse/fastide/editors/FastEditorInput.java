@@ -8,7 +8,7 @@ import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 public class FastEditorInput implements IPathEditorInput {
-    private IPath path;
+    private IPath       path;
 
     private FastDiagram diagram;
 
@@ -29,7 +29,7 @@ public class FastEditorInput implements IPathEditorInput {
 
     public String getName() {
         // TODO Auto-generated method stub
-        return path.toString();
+        return path.lastSegment();
     }
 
     public IPersistableElement getPersistable() {

@@ -5,7 +5,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.fastide.model.StartNode;
 
-public class StartNodeFigure extends NodeFigure {
+public class StartNodeFigure extends FastNodeFigure {
     public StartNodeFigure() {
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
         c.offsetV = 9;

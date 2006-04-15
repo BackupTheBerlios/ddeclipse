@@ -54,7 +54,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Integer guidePos = (Integer) request.getExtendedData().get(
                 horizontal ? SnapToGuides.KEY_HORIZONTAL_GUIDE
                         : SnapToGuides.KEY_VERTICAL_GUIDE);
-        if(guidePos != null) {
+        if (guidePos != null) {
             int alignment = ((Integer) request.getExtendedData().get(
                     horizontal ? SnapToGuides.KEY_HORIZONTAL_ANCHOR
                             : SnapToGuides.KEY_VERTICAL_ANCHOR)).intValue();
@@ -75,7 +75,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Integer guidePos = (Integer) request.getExtendedData().get(
                 horizontal ? SnapToGuides.KEY_HORIZONTAL_GUIDE
                         : SnapToGuides.KEY_VERTICAL_GUIDE);
-        if(guidePos == null)
+        if (guidePos == null)
             result = result.chain(new ChangeGuideCommand(part, horizontal));
 
         return result;
@@ -126,13 +126,13 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
         cmd.setLocation((Rectangle) constraint);
         Command result = cmd;
 
-        if((request.getResizeDirection() & PositionConstants.NORTH_SOUTH) != 0) {
+        if ((request.getResizeDirection() & PositionConstants.NORTH_SOUTH) != 0) {
             Integer guidePos = (Integer) request.getExtendedData().get(
                     SnapToGuides.KEY_HORIZONTAL_GUIDE);
-            if(guidePos != null) {
+            if (guidePos != null) {
                 result = chainGuideAttachmentCommand(request, part, result,
                         true);
-            } else if(part.getHorizontalGuide() != null) {
+            } else if (part.getHorizontalGuide() != null) {
                 // SnapToGuides didn't provide a horizontal guide, but this part
                 // is attached
                 // to a horizontal guide. Now we check to see if the part is
@@ -142,34 +142,34 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 // detach the part from the guide; otherwise, we leave it alone.
                 int alignment = part.getHorizontalGuide().getAlignment(part);
                 int edgeBeingResized = 0;
-                if((request.getResizeDirection() & PositionConstants.NORTH) != 0)
+                if ((request.getResizeDirection() & PositionConstants.NORTH) != 0)
                     edgeBeingResized = -1;
                 else
                     edgeBeingResized = 1;
-                if(alignment == edgeBeingResized)
+                if (alignment == edgeBeingResized)
                     result = result.chain(new ChangeGuideCommand(part, true));
             }
         }
 
-        if((request.getResizeDirection() & PositionConstants.EAST_WEST) != 0) {
+        if ((request.getResizeDirection() & PositionConstants.EAST_WEST) != 0) {
             Integer guidePos = (Integer) request.getExtendedData().get(
                     SnapToGuides.KEY_VERTICAL_GUIDE);
-            if(guidePos != null) {
+            if (guidePos != null) {
                 result = chainGuideAttachmentCommand(request, part, result,
                         false);
-            } else if(part.getVerticalGuide() != null) {
+            } else if (part.getVerticalGuide() != null) {
                 int alignment = part.getVerticalGuide().getAlignment(part);
                 int edgeBeingResized = 0;
-                if((request.getResizeDirection() & PositionConstants.WEST) != 0)
+                if ((request.getResizeDirection() & PositionConstants.WEST) != 0)
                     edgeBeingResized = -1;
                 else
                     edgeBeingResized = 1;
-                if(alignment == edgeBeingResized)
+                if (alignment == edgeBeingResized)
                     result = result.chain(new ChangeGuideCommand(part, false));
             }
         }
 
-        if(request.getType().equals(REQ_MOVE_CHILDREN)
+        if (request.getType().equals(REQ_MOVE_CHILDREN)
                 || request.getType().equals(REQ_ALIGN_CHILDREN)) {
             result = chainGuideAttachmentCommand(request, part, result, true);
             result = chainGuideAttachmentCommand(request, part, result, false);
@@ -181,7 +181,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        if(child instanceof FastNodeEditPart) {
+        if (child instanceof FastNodeEditPart) {
             ResizableEditPolicy policy = new FastResizableEditPolicy();
             policy.setResizeDirections(0);
             return policy;
@@ -192,6 +192,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#createSizeOnDropFeedback(org.eclipse.gef.requests.CreateRequest)
      */
     protected IFigure createSizeOnDropFeedback(CreateRequest createRequest) {
@@ -243,7 +244,9 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * Override to return the <code>Command</code> to perform an {@link
      * RequestConstants#REQ_CLONE CLONE}. By default, <code>null</code> is
      * returned.
-     * @param request the Clone Request
+     * 
+     * @param request
+     *            the Clone Request
      * @return A command to perform the Clone.
      */
     protected Command getCloneCommand(ChangeBoundsRequest request) {
@@ -263,7 +266,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // Attach to horizontal guide, if one is given
         Integer guidePos = (Integer) request.getExtendedData().get(
                 SnapToGuides.KEY_HORIZONTAL_GUIDE);
-        if(guidePos != null) {
+        if (guidePos != null) {
             int hAlignment = ((Integer) request.getExtendedData().get(
                     SnapToGuides.KEY_HORIZONTAL_ANCHOR)).intValue();
             clone.setGuide(findGuideAt(guidePos.intValue(), true), hAlignment,
@@ -273,7 +276,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // Attach to vertical guide, if one is given
         guidePos = (Integer) request.getExtendedData().get(
                 SnapToGuides.KEY_VERTICAL_GUIDE);
-        if(guidePos != null) {
+        if (guidePos != null) {
             int vAlignment = ((Integer) request.getExtendedData().get(
                     SnapToGuides.KEY_VERTICAL_ANCHOR)).intValue();
             clone.setGuide(findGuideAt(guidePos.intValue(), false), vAlignment,
@@ -299,6 +302,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreationFeedbackOffset(org.eclipse.gef.requests.CreateRequest)
      */
     protected Insets getCreationFeedbackOffset(CreateRequest request) {
@@ -311,6 +315,7 @@ public class FastXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /**
      * Returns the layer used for displaying feedback.
+     * 
      * @return the feedback layer
      */
     protected IFigure getFeedbackLayer() {

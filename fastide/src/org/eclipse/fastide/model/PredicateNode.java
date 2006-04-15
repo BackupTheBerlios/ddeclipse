@@ -10,19 +10,19 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author …Ú»›÷€
  */
-public class PredicateNode extends SimpleNode {
-    public static String IN_1 = "IN1";
+public class PredicateNode extends FastNode {
+    public static String       IN_1             = "IN1";
 
-    public static String IN_2 = "IN2";
+    public static String       IN_2             = "IN2";
 
-    public static String OUT_1 = "OUT1";
+    public static String       OUT_1            = "OUT1";
 
-    public static String OUT_2 = "OUT2";
+    public static String       OUT_2            = "OUT2";
 
-    static final long serialVersionUID = 1;
+    static final long          serialVersionUID = 1;
 
-    private static final Image ICON = createImage(SimpleNode.class,
-            "icons/or16.gif");
+    private static final Image ICON             = createImage(FastNode.class,
+                                                        "icons/or16.gif");
 
     public PredicateNode() {
         this.size = new Dimension(40, 40);

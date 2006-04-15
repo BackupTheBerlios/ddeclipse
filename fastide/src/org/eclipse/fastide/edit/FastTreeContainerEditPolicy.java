@@ -28,7 +28,7 @@ public class FastTreeContainerEditPolicy extends TreeContainerEditPolicy {
             int index, String label) {
         FastCreateCommand cmd = new FastCreateCommand();
         Rectangle rect;
-        if(r == null) {
+        if (r == null) {
             rect = new Rectangle();
             rect.setSize(new Dimension(-1, -1));
         } else {
@@ -38,7 +38,7 @@ public class FastTreeContainerEditPolicy extends TreeContainerEditPolicy {
         cmd.setParent((FastDiagram) getHost().getModel());
         cmd.setChild(child);
         cmd.setLabel(label);
-        if(index >= 0)
+        if (index >= 0)
             cmd.setIndex(index);
         return cmd;
     }
@@ -51,7 +51,7 @@ public class FastTreeContainerEditPolicy extends TreeContainerEditPolicy {
 
         for (int i = 0; i < editparts.size(); i++) {
             EditPart child = (EditPart) editparts.get(i);
-            if(isAncestor(child, getHost()))
+            if (isAncestor(child, getHost()))
                 command.add(UnexecutableCommand.INSTANCE);
             else {
                 FastSubpart childModel = (FastSubpart) child.getModel();
@@ -79,10 +79,10 @@ public class FastTreeContainerEditPolicy extends TreeContainerEditPolicy {
             EditPart child = (EditPart) editparts.get(i);
             int tempIndex = newIndex;
             int oldIndex = children.indexOf(child);
-            if(oldIndex == tempIndex || oldIndex + 1 == tempIndex) {
+            if (oldIndex == tempIndex || oldIndex + 1 == tempIndex) {
                 command.add(UnexecutableCommand.INSTANCE);
                 return command;
-            } else if(oldIndex <= tempIndex) {
+            } else if (oldIndex <= tempIndex) {
                 tempIndex--;
             }
             command.add(new ReorderPartCommand((FastSubpart) child.getModel(),
@@ -92,9 +92,9 @@ public class FastTreeContainerEditPolicy extends TreeContainerEditPolicy {
     }
 
     protected boolean isAncestor(EditPart source, EditPart target) {
-        if(source == target)
+        if (source == target)
             return true;
-        if(target.getParent() != null)
+        if (target.getParent() != null)
             return isAncestor(source, target.getParent());
         return false;
     }

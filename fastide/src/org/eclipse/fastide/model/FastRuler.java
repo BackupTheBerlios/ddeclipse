@@ -40,7 +40,7 @@ public class FastRuler implements Serializable {
     }
 
     public void addGuide(FastGuide guide) {
-        if(!guides.contains(guide)) {
+        if (!guides.contains(guide)) {
             guide.setHorizontal(!isHorizontal());
             guides.add(guide);
             listeners.firePropertyChange(PROPERTY_CHILDREN, null, guide);
@@ -69,7 +69,7 @@ public class FastRuler implements Serializable {
     }
 
     public void removeGuide(FastGuide guide) {
-        if(guides.remove(guide)) {
+        if (guides.remove(guide)) {
             listeners.firePropertyChange(PROPERTY_CHILDREN, null, guide);
         }
     }
@@ -82,7 +82,7 @@ public class FastRuler implements Serializable {
     }
 
     public void setUnit(int newUnit) {
-        if(unit != newUnit) {
+        if (unit != newUnit) {
             int oldUnit = unit;
             unit = newUnit;
             listeners.firePropertyChange(PROPERTY_UNIT, oldUnit, newUnit);

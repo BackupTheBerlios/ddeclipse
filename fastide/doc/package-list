@@ -1,0 +1,10 @@
+org.eclipse.fastide
+org.eclipse.fastide.actions
+org.eclipse.fastide.dnd
+org.eclipse.fastide.edit
+org.eclipse.fastide.editors
+org.eclipse.fastide.figures
+org.eclipse.fastide.model
+org.eclipse.fastide.model.commands
+org.eclipse.fastide.palette
+org.eclipse.fastide.rulers

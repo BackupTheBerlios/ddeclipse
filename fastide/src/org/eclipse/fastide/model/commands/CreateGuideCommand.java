@@ -28,7 +28,7 @@ public class CreateGuideCommand extends Command {
     }
 
     public void execute() {
-        if(guide == null)
+        if (guide == null)
             guide = new FastGuide(!parent.isHorizontal());
         guide.setPosition(position);
         parent.addGuide(guide);

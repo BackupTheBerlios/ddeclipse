@@ -4,7 +4,7 @@
 package org.eclipse.fastide.model.commands;
 
 import org.eclipse.draw2d.Bendpoint;
-import org.eclipse.fastide.model.ConnectionBendpoint;
+import org.eclipse.fastide.model.FastBendpoint;
 
 /**
  * @author …Ú»›÷€
@@ -13,7 +13,7 @@ public class MoveBendpointCommand extends BendpointCommand {
     private Bendpoint oldBendpoint;
 
     public void execute() {
-        ConnectionBendpoint bp = new ConnectionBendpoint();
+        FastBendpoint bp = new FastBendpoint();
         bp.setRelativeDimensions(getFirstRelativeDimension(),
                 getSecondRelativeDimension());
         setOldBendpoint((Bendpoint) getConnectionNode().getBendpoints().get(

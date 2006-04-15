@@ -31,7 +31,7 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
      * @see org.eclipse.draw2d.AbstractConnectionAnchor#ancestorMoved(IFigure)
      */
     public void ancestorMoved(IFigure figure) {
-        if(figure instanceof ScalableFigure)
+        if (figure instanceof ScalableFigure)
             return;
         super.ancestorMoved(figure);
     }
@@ -39,12 +39,12 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
     public Point getLocation(Point reference) {
         Rectangle r = getOwner().getBounds();
         int x, y;
-        if(topDown)
+        if (topDown)
             y = r.y + offsetV;
         else
             y = r.bottom() - 1 - offsetV;
 
-        if(leftToRight)
+        if (leftToRight)
             x = r.x + offsetH;
         else
             x = r.right() - 1 - offsetH;
@@ -59,7 +59,8 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
     }
 
     /**
-     * @param offsetH The offsetH to set.
+     * @param offsetH
+     *            The offsetH to set.
      */
     public void setOffsetH(int offsetH) {
         this.offsetH = offsetH;
@@ -67,7 +68,8 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
     }
 
     /**
-     * @param offsetV The offsetV to set.
+     * @param offsetV
+     *            The offsetV to set.
      */
     public void setOffsetV(int offsetV) {
         this.offsetV = offsetV;

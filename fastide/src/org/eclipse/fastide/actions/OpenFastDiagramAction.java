@@ -2,7 +2,6 @@ package org.eclipse.fastide.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -21,49 +20,70 @@ public class OpenFastDiagramAction extends Action {
     private IWorkbenchWindow window;
 
     public OpenFastDiagramAction(IWorkbenchWindow window) {
-        super("Open FAST Diagram");
+        super("&Open");
+
         this.window = window;
+        setId("org.eclipse.fastide.openAction");
+        setActionDefinitionId("org.eclipse.fastide.openAction");
     }
 
     public void run() {
-        // TODO Auto-generated method stub
-        FileDialog fd = new FileDialog(window.getShell(), SWT.SAVE);
-        fd.setFilterExtensions(new String[] { "*.fst", "*.*" });
-        fd.setText("New...");
-
-        if (fd.open() != null) {
-            String fileName = fd.getFileName();
-            File file = new File(fd.getFilterPath() + "/" + fileName);
-            InputStream fileStream = null;
-            FastDiagram diagram = null;
+        String fileName = openDialog();
+        if (fileName != null) {
+            File file = new File(fileName);
             try {
-                fileStream = new FileInputStream(file);
-                ObjectInputStream in = new ObjectInputStream(fileStream);
-                diagram = (FastDiagram) in.readObject();
-            } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            IWorkbenchPage page = window.getActivePage();
-            Path path = new Path(file.getAbsolutePath());
-            FastEditorInput input = new FastEditorInput(path);
-            input.setDiagram(diagram);
-            try {
-                page.openEditor(input, "org.eclipse.fastide.fasteditor");
-            } catch (PartInitException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                FastDiagram diagram = getDiagram(file);
+                openEditor(diagram, file);
+            } catch (PartInitException exception) {
+                exception.printStackTrace();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         }
     }
 
-    public String getId() {
-        // TODO Auto-generated method stub
-        return "org.eclipse.fastide.openAction";
+    /**
+     * <p>
+     * Opens the file dialog and allow the user to enter a file name for the
+     * file to be opened.
+     * </p>
+     * 
+     * @return The absolute path of the file selected.
+     */
+    private String openDialog() {
+        FileDialog fileDialog = new FileDialog(window.getShell(), SWT.SAVE);
+        fileDialog.setFilterExtensions(new String[] { "*.fst" });
+        fileDialog.setText("Open...");
+        return fileDialog.open();
+    }
+
+    /**
+     * Obtain the FAST diagram from the specific file given.
+     * 
+     * @param file
+     *            The file that the FAST diagram is obtained
+     * @return The FAST Diagram obtained from the file
+     * @throws IOException
+     */
+    private FastDiagram getDiagram(File file) throws IOException {
+        InputStream fileStream = null;
+        FastDiagram diagram = null;
+        fileStream = new FileInputStream(file);
+        ObjectInputStream in = new ObjectInputStream(fileStream);
+        try {
+            diagram = (FastDiagram) in.readObject();
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+        return diagram;
+    }
+
+    private void openEditor(FastDiagram diagram, File file)
+            throws PartInitException {
+        IWorkbenchPage page = window.getActivePage();
+        Path path = new Path(file.getAbsolutePath());
+        FastEditorInput input = new FastEditorInput(path);
+        input.setDiagram(diagram);
+        page.openEditor(input, "org.eclipse.fastide.fasteditor");
     }
 }
