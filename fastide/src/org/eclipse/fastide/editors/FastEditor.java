@@ -3,16 +3,20 @@
  */
 package org.eclipse.fastide.editors;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -48,8 +52,11 @@ import org.eclipse.fastide.actions.FastPasteTemplateAction;
 import org.eclipse.fastide.dnd.TextTransferDropTargetListener;
 import org.eclipse.fastide.edit.GraphicalPartFactory;
 import org.eclipse.fastide.edit.TreePartFactory;
+import org.eclipse.fastide.model.EndNode;
 import org.eclipse.fastide.model.FastDiagram;
+import org.eclipse.fastide.model.FastNode;
 import org.eclipse.fastide.model.FastRuler;
+import org.eclipse.fastide.model.JoinpointNode;
 import org.eclipse.fastide.palette.FastPaletteCustomizer;
 import org.eclipse.fastide.rulers.FastRulerProvider;
 import org.eclipse.gef.ContextMenuProvider;
@@ -441,6 +448,26 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
         }
     }
 
+    public void createFstOutputStream(File file) throws IOException {
+        StringBuffer buffer = new StringBuffer("");
+        Iterator children = getFastDiagram().getChildren().iterator();
+        while (children.hasNext()) {
+            FastNode node = (FastNode) children.next();
+            System.out.println(node.getClass().getName());
+            if (!node.getClass().equals(EndNode.class)
+                    && !node.getClass().equals(JoinpointNode.class)) {
+                buffer.append(node.getFast());
+                System.out.println(node.getClass().getSimpleName() + ": "
+                        + node.getFast());
+            }
+        }
+        Writer writer = new FileWriter(file);
+        BufferedWriter buffWriter = new BufferedWriter(writer);
+        buffWriter.write(buffer.toString());
+        buffWriter.flush();
+        buffWriter.close();
+    }
+
     protected CustomPalettePage createPalettePage() {
         return new CustomPalettePage(getPaletteViewerProvider()) {
             public void init(IPageSite pageSite) {
@@ -491,6 +518,9 @@ public class FastEditor extends GraphicalEditorWithFlyoutPalette {
             file = in.getPath().removeFileExtension().addFileExtension("fsx")
                     .toFile();
             createXmlOutputStream(file);
+            file = in.getPath().removeFileExtension().addFileExtension("fss")
+                    .toFile();
+            createFstOutputStream(file);
             saveProperties();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

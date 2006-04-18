@@ -3,6 +3,8 @@
  */
 package org.eclipse.fastide.model;
 
+import java.util.Iterator;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Image;
@@ -33,8 +35,9 @@ public class FunctionNode extends FastNode {
                                                         "icons/xor16.gif");
 
     public FunctionNode() {
-        this.size = new Dimension(40, 40);
+        this.size = new Dimension(40, 50);
         this.location = new Point(20, 20);
+        setName("f" + getID());
     }
 
     /**
@@ -63,5 +66,30 @@ public class FunctionNode extends FastNode {
         setOutput(OUT_2, bit);
         setOutput(OUT_3, bit);
         setOutput(OUT_4, bit);
+    }
+
+    public String getFast() {
+        // TODO Auto-generated method stub
+        StringBuffer buffer = new StringBuffer("");
+        Iterator iter = outputs.iterator();
+        while (iter.hasNext()) {
+            FastConnection connection = (FastConnection) iter.next();
+            FastNode target = (FastNode) connection.getTarget();
+            String targetName = null;
+            if (target.getClass().equals(FunctionNode.class))
+                targetName = "[" + target.getName() + "]";
+            else if (target.getClass().equals(PredicateNode.class))
+                targetName = "<" + target.getName() + ">";
+            else if (target.getClass().equals(EndNode.class))
+                targetName = target.getName();
+            if (!target.getClass().equals(JoinpointNode.class)) {
+                buffer.append("[" + getName() + "]" + " => " + targetName
+                        + "\n");
+            } else {
+                buffer.append("[" + getName() + "]" + " => " + target.getFast()
+                        + "\n");
+            }
+        }
+        return buffer.toString();
     }
 }

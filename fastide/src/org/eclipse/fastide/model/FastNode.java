@@ -5,11 +5,11 @@ package org.eclipse.fastide.model;
 
 import java.util.Iterator;
 
+import org.eclipse.fastide.FastMessages;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
-import org.eclipse.fastide.FastMessages;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -48,6 +48,11 @@ public abstract class FastNode extends FastSubpart {
      */
     public String getName() {
         return name;
+    }
+
+    public IPropertyDescriptor[] getPropertyDescriptors() {
+        // TODO Auto-generated method stub
+        return newDescriptors;
     }
 
     /**
@@ -109,6 +114,8 @@ public abstract class FastNode extends FastSubpart {
         // TODO Auto-generated method stub
         Element simple = super.getXml(doc);
 
+        simple.setAttribute("id", getID());
+
         Element temp = doc.createElement("name");
         if (name == null)
             name = "";
@@ -133,4 +140,6 @@ public abstract class FastNode extends FastSubpart {
 
         return simple;
     }
+
+    public abstract String getFast();
 }

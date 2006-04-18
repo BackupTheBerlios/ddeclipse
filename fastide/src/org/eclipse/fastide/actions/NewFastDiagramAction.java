@@ -8,9 +8,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import org.eclipse.core.runtime.Path;
+import org.eclipse.fastide.editors.FastEditor;
 import org.eclipse.fastide.editors.FastEditorInput;
 import org.eclipse.fastide.model.FastDiagramFactory;
+import org.eclipse.fastide.views.FastFilesView;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchPage;
@@ -26,6 +29,8 @@ public class NewFastDiagramAction extends Action {
         this.window = window;
         setId("org.eclipse.fastide.newAction");
         setActionDefinitionId("org.eclipse.fastide.newAction");
+        this.setImageDescriptor(ImageDescriptor.createFromFile(
+                FastEditor.class, "icons/newframe_wiz.gif"));
     }
 
     public void run() {
@@ -49,7 +54,7 @@ public class NewFastDiagramAction extends Action {
      * @return The absolute path of the file selected.
      */
     private String openDialog() {
-        FileDialog fileDialog = new FileDialog(window.getShell(), SWT.SAVE);
+        FileDialog fileDialog = new FileDialog(window.getShell(), SWT.OPEN);
         fileDialog.setFilterExtensions(new String[] { "*.fst", "*.*" });
         fileDialog.setText("New...");
         return fileDialog.open();
@@ -90,6 +95,9 @@ public class NewFastDiagramAction extends Action {
         IWorkbenchPage page = window.getActivePage();
         Path path = new Path(file.getAbsolutePath());
         FastEditorInput input = new FastEditorInput(path);
+        FastFilesView view = (FastFilesView) window.getActivePage().findView(
+                FastFilesView.ID);
+        view.addFile(file, input);
         try {
             page.openEditor(input, "org.eclipse.fastide.fasteditor", true);
         } catch (PartInitException e) {

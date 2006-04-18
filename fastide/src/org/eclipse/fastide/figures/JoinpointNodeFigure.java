@@ -13,25 +13,27 @@ import org.eclipse.fastide.model.JoinpointNode;
  */
 public class JoinpointNodeFigure extends FastNodeFigure {
     public JoinpointNodeFigure() {
+        offsetH = 19;
+        offsetV = 19;
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
+        c.offsetH = offsetH;
         connectionAnchors.put(JoinpointNode.IN_1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
+        c.offsetH = offsetH;
         c.topDown = false;
         connectionAnchors.put(JoinpointNode.IN_2, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         c.leftToRight = false;
         connectionAnchors.put(JoinpointNode.OUT_2, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         connectionAnchors.put(JoinpointNode.OUT_1, c);
         outputConnectionAnchors.addElement(c);
     }
@@ -42,10 +44,11 @@ public class JoinpointNodeFigure extends FastNodeFigure {
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
         super.paintFigure(g);
+        drawText(getName(), g, 40);
         Rectangle r = getBounds().getCopy();
         g.setForegroundColor(ColorConstants.black);
         r.width = r.width - 2;
-        r.height = r.height - 2;
+        r.height = 38;
         g.drawOval(r);
         r.resize(-16, -16);
         r.translate(8, 8);

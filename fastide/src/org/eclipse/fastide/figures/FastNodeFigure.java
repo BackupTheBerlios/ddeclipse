@@ -11,7 +11,9 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.TextLayout;
 
 /**
  * @author …Ú»›÷€
@@ -22,6 +24,12 @@ public class FastNodeFigure extends Figure {
     protected Vector    inputConnectionAnchors  = new Vector(2, 2);
 
     protected Vector    outputConnectionAnchors = new Vector(2, 2);
+
+    private String      name;
+
+    protected int       offsetV;
+
+    protected int       offsetH;
 
     public ConnectionAnchor connectionAnchorAt(Point p) {
         ConnectionAnchor closest = null;
@@ -107,9 +115,27 @@ public class FastNodeFigure extends Figure {
         return inputConnectionAnchors;
     }
 
-    protected void paintFigure(Graphics graphics) {
+    protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
-        super.paintFigure(graphics);
-        graphics.setAntialias(SWT.ON);
+        super.paintFigure(g);
+        g.setAntialias(SWT.ON);
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    protected void drawText(String text, Graphics g, int offset) {
+        Rectangle r = getBounds().getCopy();
+        TextLayout textLayout = new TextLayout(null);
+        textLayout.setText(text);
+        int width = textLayout.getBounds().width;
+        int tX = r.x + (r.width - width) / 2;
+        g.drawTextLayout(textLayout, tX, r.y + offset);
     }
 }

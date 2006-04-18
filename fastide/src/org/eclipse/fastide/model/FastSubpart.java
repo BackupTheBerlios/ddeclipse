@@ -39,9 +39,9 @@ public abstract class FastSubpart extends FastElement {
 
     protected static IPropertyDescriptor[] descriptors      = null;
 
-    public static String                   ID_SIZE          = "size";          //$NON-NLS-1$
+    public static String                   ID_SIZE          = "size";
 
-    public static String                   ID_LOCATION      = "location";      //$NON-NLS-1$
+    public static String                   ID_LOCATION      = "location";
 
     static {
         descriptors = new IPropertyDescriptor[] {
@@ -241,27 +241,6 @@ public abstract class FastSubpart extends FastElement {
     public Element getXml(Document doc) {
         // TODO Auto-generated method stub
         Element fastsubpart = super.getXml(doc);
-
-        Element temp = null;
-        if (verticalGuide != null) {
-            temp = verticalGuide.getXml(doc);
-            fastsubpart.appendChild(temp);
-        }
-
-        if (horizontalGuide != null) {
-            temp = horizontalGuide.getXml(doc);
-            fastsubpart.appendChild(temp);
-        }
-
-        temp = doc.createElement("size");
-        temp.setAttribute("width", Integer.toString(size.width));
-        temp.setAttribute("height", Integer.toString(size.height));
-        fastsubpart.appendChild(temp);
-
-        temp = doc.createElement("location");
-        temp.setAttribute("x", Integer.toString(location.x));
-        temp.setAttribute("y", Integer.toString(location.y));
-        fastsubpart.appendChild(temp);
 
         return fastsubpart;
     }

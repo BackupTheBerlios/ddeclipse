@@ -3,6 +3,7 @@
  */
 package org.eclipse.fastide.edit;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -10,23 +11,29 @@ import java.util.Vector;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.fastide.figures.EndNodeFigure;
+import org.eclipse.fastide.figures.FastNodeFigure;
 import org.eclipse.fastide.figures.FunctionNodeFigure;
 import org.eclipse.fastide.figures.JoinpointNodeFigure;
 import org.eclipse.fastide.figures.PredicateNodeFigure;
 import org.eclipse.fastide.figures.StartNodeFigure;
+import org.eclipse.fastide.model.FastNode;
 import org.eclipse.fastide.model.FunctionNode;
 import org.eclipse.fastide.model.JoinpointNode;
 import org.eclipse.fastide.model.PredicateNode;
-import org.eclipse.fastide.model.FastNode;
 import org.eclipse.fastide.model.StartNode;
 import org.eclipse.gef.AccessibleAnchorProvider;
 import org.eclipse.gef.AccessibleEditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 
 /**
  * @author …Ú»›÷€
  */
 public class FastNodeEditPart extends FastEditPart {
+    private FastNodeNameEditManager manager;
 
     /**
      * @see org.eclipse.fastide.edit.FastEditPart#createAccessible()
@@ -34,10 +41,22 @@ public class FastNodeEditPart extends FastEditPart {
     protected AccessibleEditPart createAccessible() {
         // TODO Auto-generated method stub
         return new AccessibleGraphicalEditPart() {
+            public void getValue(AccessibleControlEvent e) {
+                // TODO Auto-generated method stub
+                e.result = getFastNode().getName();
+            }
+
             public void getName(AccessibleEvent e) {
-                e.result = getSimpleNode().toString();
+                e.result = getFastNode().toString();
             }
         };
+    }
+
+    protected void createEditPolicies() {
+        // TODO Auto-generated method stub
+        super.createEditPolicies();
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+                new FastNodeDirectEditPolicy());
     }
 
     /**
@@ -92,7 +111,31 @@ public class FastNodeEditPart extends FastEditPart {
         return super.getAdapter(key);
     }
 
-    public FastNode getSimpleNode() {
+    public FastNode getFastNode() {
         return (FastNode) getModel();
+    }
+
+    private void performDirectEdit() {
+        if (manager == null)
+            manager = new FastNodeNameEditManager(this,
+                    new NodeCellEditorLocator((FastNodeFigure) getFigure()));
+        manager.show();
+    }
+
+    public void performRequest(Request request) {
+        if (request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+            performDirectEdit();
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equalsIgnoreCase(FastNode.NAME_PROP))
+            refreshVisuals();
+        else
+            super.propertyChange(evt);
+    }
+
+    protected void refreshVisuals() {
+        ((FastNodeFigure) getFigure()).setName(getFastNode().getName());
+        super.refreshVisuals();
     }
 }

@@ -40,24 +40,26 @@ public class PredicateNodeFigure extends FastNodeFigure {
     }
 
     public PredicateNodeFigure() {
+        offsetV = 19;
+        offsetH = 19;
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         connectionAnchors.put(PredicateNode.IN_1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         c.leftToRight = false;
         connectionAnchors.put(PredicateNode.IN_2, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
+        c.offsetH = offsetH;
         connectionAnchors.put(PredicateNode.OUT_1, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 19;
+        c.offsetH = offsetH;
         c.topDown = false;
         connectionAnchors.put(PredicateNode.OUT_2, c);
         outputConnectionAnchors.addElement(c);
@@ -69,6 +71,7 @@ public class PredicateNodeFigure extends FastNodeFigure {
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
         super.paintFigure(g);
+        drawText(getName(), g, 40);
         Rectangle r = getBounds().getCopy();
         g.translate(r.getLocation());
         g.setForegroundColor(ColorConstants.black);

@@ -4,27 +4,30 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.fastide.model.EndNode;
+import org.eclipse.swt.graphics.TextLayout;
 
 public class EndNodeFigure extends FastNodeFigure {
     public EndNodeFigure() {
+        offsetH = 15;
+        offsetV = 15;
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetV = 9;
+        c.offsetV = offsetV;
         connectionAnchors.put(EndNode.IN1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 9;
+        c.offsetH = offsetH;
         connectionAnchors.put(EndNode.IN2, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 9;
+        c.offsetV = offsetV;
         c.leftToRight = false;
         connectionAnchors.put(EndNode.IN3, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetH = 9;
+        c.offsetH = offsetH;
         c.topDown = false;
         connectionAnchors.put(EndNode.IN4, c);
         inputConnectionAnchors.addElement(c);
@@ -36,10 +39,13 @@ public class EndNodeFigure extends FastNodeFigure {
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
         super.paintFigure(g);
+
+        drawText(getName(), g, 20);
         Rectangle r = getBounds().getCopy();
+        r.x = r.x + (r.width - 20) / 2;
+        r.width = 18;
+        r.height = 18;
         g.setForegroundColor(ColorConstants.blue);
-        r.width = r.width - 2;
-        r.height = r.height - 2;
         g.drawOval(r);
         r.resize(-6, -6);
         r.translate(3, 3);

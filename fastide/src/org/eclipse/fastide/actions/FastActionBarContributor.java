@@ -11,8 +11,6 @@ import org.eclipse.gef.ui.actions.AlignmentRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
 import org.eclipse.gef.ui.actions.MatchWidthRetargetAction;
-import org.eclipse.gef.ui.actions.RedoRetargetAction;
-import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
@@ -35,9 +33,6 @@ public class FastActionBarContributor extends ActionBarContributor {
      */
     protected void buildActions() {
         // TODO Auto-generated method stub
-        addRetargetAction(new UndoRetargetAction());
-        addRetargetAction(new RedoRetargetAction());
-
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.CENTER));
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.RIGHT));
@@ -99,9 +94,6 @@ public class FastActionBarContributor extends ActionBarContributor {
      */
     public void contributeToToolBar(IToolBarManager tbm) {
         // TODO Auto-generated method stub
-        tbm.add(getAction(ActionFactory.UNDO.getId()));
-        tbm.add(getAction(ActionFactory.REDO.getId()));
-
         tbm.add(new Separator());
         tbm.add(getAction(GEFActionConstants.ALIGN_LEFT));
         tbm.add(getAction(GEFActionConstants.ALIGN_CENTER));

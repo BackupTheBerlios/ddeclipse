@@ -13,50 +13,49 @@ import org.eclipse.fastide.model.FunctionNode;
  */
 public class FunctionNodeFigure extends FastNodeFigure {
     public FunctionNodeFigure() {
+        offsetH = 19;
+        offsetV = 19;
         FixedConnectionAnchor c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         connectionAnchors.put(FunctionNode.IN_1, c);
         inputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         c.leftToRight = false;
         connectionAnchors.put(FunctionNode.IN_2, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
+        c.offsetH = offsetH;
+        c.topDown = false;
         connectionAnchors.put(FunctionNode.IN_3, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
+        c.offsetH = offsetH;
         connectionAnchors.put(FunctionNode.IN_4, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
+        c.offsetV = offsetV;
         c.leftToRight = false;
         connectionAnchors.put(FunctionNode.OUT_1, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
+        c.offsetV = offsetV;
         connectionAnchors.put(FunctionNode.OUT_2, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
+        c.offsetH = offsetH;
+        c.topDown = false;
         connectionAnchors.put(FunctionNode.OUT_3, c);
         outputConnectionAnchors.addElement(c);
 
         c = new FixedConnectionAnchor(this);
-        c.offsetV = 19;
-        c.leftToRight = false;
+        c.offsetH = offsetH;
         connectionAnchors.put(FunctionNode.OUT_4, c);
         outputConnectionAnchors.addElement(c);
     }
@@ -67,10 +66,11 @@ public class FunctionNodeFigure extends FastNodeFigure {
     protected void paintFigure(Graphics g) {
         // TODO Auto-generated method stub
         super.paintFigure(g);
+        drawText(getName(), g, 40);
         Rectangle r = getBounds().getCopy();
         g.setForegroundColor(ColorConstants.black);
         r.width = r.width - 2;
-        r.height = r.height - 2;
+        r.height = 38;
         g.drawRectangle(r);
         r.resize(-16, -16);
         r.translate(8, 8);

@@ -210,25 +210,7 @@ public class FastDiagram extends FastSubpart {
         // TODO Auto-generated method stub
         Element diagram = super.getXml(doc);
 
-        Element temp = doc.createElement("connectionRouter");
-        temp.appendChild(doc.createTextNode(connectionRouter.toString()));
-        diagram.appendChild(temp);
-
-        temp = doc.createElement("rulersVisibility");
-        temp
-                .appendChild(doc.createTextNode(Boolean
-                        .toString(rulersVisibility)));
-        diagram.appendChild(temp);
-
-        temp = doc.createElement("snapToGeometry");
-        temp.appendChild(doc.createTextNode(Boolean.toString(snapToGeometry)));
-        diagram.appendChild(temp);
-
-        temp = doc.createElement("gridEnabled");
-        temp.appendChild(doc.createTextNode(Boolean.toString(gridEnabled)));
-        diagram.appendChild(temp);
-
-        temp = doc.createElement("subnodes");
+        Element temp = doc.createElement("subnodes");
         Iterator iter = children.iterator();
         while (iter.hasNext()) {
             FastElement elem = (FastElement) iter.next();

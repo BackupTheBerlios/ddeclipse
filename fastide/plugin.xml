@@ -44,6 +44,12 @@
             icon="icons/outline_co.gif"
             id="org.eclipse.ui.views.contentoutline.ContentOutline"
             name="Outline"/>
+      <view
+            allowMultiple="false"
+            class="org.eclipse.fastide.views.FastFilesView"
+            icon="icons/e_synch_toc_nav.gif"
+            id="org.eclipse.fastide.views.filesView"
+            name="Files"/>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -64,7 +70,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.fastide.fastide"
-            name="fastide">
+            name="FAST SDK">
          <property
                name="windowImages"
                value="icons/shapes.gif"/>
@@ -100,6 +106,14 @@
             commandId="org.eclipse.fastide.openAction"
             keyConfigurationId="org.eclipse.ui.defaultAcceleratorConfiguration"
             keySequence="M1+M2+O"/>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true"/>
+      <toc file="tocgettingstarted.xml"/>
+      <toc file="tocsamples.xml"/>
    </extension>
 
 </plugin>

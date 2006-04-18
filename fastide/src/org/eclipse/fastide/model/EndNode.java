@@ -25,8 +25,9 @@ public class EndNode extends FastNode {
                                                         "icons/or16.gif");
 
     public EndNode() {
-        size = new Dimension(20, 20);
+        size = new Dimension(30, 30);
         location = new Point(20, 20);
+        setName("exit");
     }
 
     /**
@@ -54,5 +55,10 @@ public class EndNode extends FastNode {
     public Image getIconImage() {
         // TODO Auto-generated method stub
         return ICON;
+    }
+
+    public String getFast() {
+        // TODO Auto-generated method stub
+        return " ";
     }
 }

@@ -1,4 +1,7 @@
-package org.eclipse.fastide.actions;
+/**
+ * 
+ */
+package org.eclipse.fastide.listeners;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,29 +12,37 @@ import java.io.ObjectInputStream;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.fastide.editors.FastEditorInput;
 import org.eclipse.fastide.model.FastDiagram;
-import org.eclipse.fastide.views.FastFilesView;
-import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 
-public class OpenFastDiagramAction extends Action {
+/**
+ * @author …Ú»›÷€
+ */
+public class OpenFileListener implements MouseListener {
     private IWorkbenchWindow window;
 
-    public OpenFastDiagramAction(IWorkbenchWindow window) {
-        super("&Open");
-
+    public OpenFileListener(IWorkbenchWindow window) {
         this.window = window;
-        setId("org.eclipse.fastide.openAction");
-        setActionDefinitionId("org.eclipse.fastide.openAction");
     }
 
-    public void run() {
-        String fileName = openDialog();
-        if (fileName != null) {
-            File file = new File(fileName);
+    public void mouseDoubleClick(MouseEvent e) {
+        IWorkbenchPage page = window.getActivePage();
+        Tree tree = (Tree) e.getSource();
+        TreeItem item = tree.getSelection()[0];
+        File file = (File) item.getData("file");
+        IEditorInput input = (IEditorInput) item.getData("input");
+        IEditorPart editor = page.findEditor(input);
+        if (editor != null) {
+            page.bringToTop(editor);
+            editor.setFocus();
+        } else {
             try {
                 FastDiagram diagram = getDiagram(file);
                 openEditor(diagram, file);
@@ -43,19 +54,12 @@ public class OpenFastDiagramAction extends Action {
         }
     }
 
-    /**
-     * <p>
-     * Opens the file dialog and allow the user to enter a file name for the
-     * file to be opened.
-     * </p>
-     * 
-     * @return The absolute path of the file selected.
-     */
-    private String openDialog() {
-        FileDialog fileDialog = new FileDialog(window.getShell(), SWT.OPEN);
-        fileDialog.setFilterExtensions(new String[] { "*.fst" });
-        fileDialog.setText("Open...");
-        return fileDialog.open();
+    public void mouseDown(MouseEvent e) {
+
+    }
+
+    public void mouseUp(MouseEvent e) {
+
     }
 
     /**
@@ -85,9 +89,6 @@ public class OpenFastDiagramAction extends Action {
         Path path = new Path(file.getAbsolutePath());
         FastEditorInput input = new FastEditorInput(path);
         input.setDiagram(diagram);
-        FastFilesView view = (FastFilesView) window.getActivePage().findView(
-                FastFilesView.ID);
-        view.addFile(file, input);
         page.openEditor(input, "org.eclipse.fastide.fasteditor");
     }
 }

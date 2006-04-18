@@ -1,11 +1,15 @@
 package org.eclipse.fastide;
 
+import org.eclipse.fastide.actions.GenerateFastAction;
 import org.eclipse.fastide.actions.NewFastDiagramAction;
 import org.eclipse.fastide.actions.OpenFastDiagramAction;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -18,6 +22,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private IAction          newAction;
 
     private IAction          openAction;
+
+    private IAction          runAction;
 
     private IWorkbenchAction exitAction;
 
@@ -39,6 +45,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     private IWorkbenchAction closeAllAction;
 
+    private IWorkbenchAction helpAction;
+
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
     }
@@ -48,6 +56,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(newAction);
         openAction = new OpenFastDiagramAction(window);
         register(openAction);
+        runAction = new GenerateFastAction(window);
+        register(runAction);
         exitAction = ActionFactory.QUIT.create(window);
         register(exitAction);
         saveAction = ActionFactory.SAVE.create(window);
@@ -68,6 +78,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(closeAction);
         closeAllAction = ActionFactory.CLOSE_ALL.create(window);
         register(closeAllAction);
+        helpAction = ActionFactory.HELP_CONTENTS.create(window);
+        register(helpAction);
     }
 
     protected void fillMenuBar(IMenuManager menuBar) {
@@ -77,6 +89,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 IWorkbenchActionConstants.M_EDIT);
         MenuManager navMenu = new MenuManager("&Navigate",
                 IWorkbenchActionConstants.M_NAVIGATE);
+        MenuManager runMenu = new MenuManager("&Run");
         MenuManager helpMenu = new MenuManager("&Help",
                 IWorkbenchActionConstants.M_HELP);
 
@@ -99,9 +112,24 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         editMenu.add(pasteAction);
         menuBar.add(editMenu);
 
+        runMenu.add(runAction);
+        menuBar.add(runMenu);
+
         menuBar.add(navMenu);
 
+        helpMenu.add(helpAction);
+        helpMenu.add(new Separator());
         helpMenu.add(aboutAction);
         menuBar.add(helpMenu);
+    }
+
+    protected void fillCoolBar(ICoolBarManager coolBar) {
+        IToolBarManager toolBar = new ToolBarManager(coolBar.getStyle());
+        coolBar.add(toolBar);
+        toolBar.add(newAction);
+        toolBar.add(saveAction);
+        toolBar.add(new Separator());
+        toolBar.add(undoAction);
+        toolBar.add(redoAction);
     }
 }
